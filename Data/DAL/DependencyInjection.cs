@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Bicks.Areas.Invoicing.Data.DAL;
+using Bicks.Areas.ProductManagement.Data.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,8 @@ namespace Bicks.Data.DAL
         public static IServiceCollection AddWorkUnits(this IServiceCollection services)
         {
             //services.AddTransient<ExampleWorkUnit>();
-
+            services.AddTransient<InvoicingWorkUnit>();
+            services.AddTransient<ProductManagementWorkUnit>();
             return services;
         }
     }

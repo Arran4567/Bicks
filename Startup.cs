@@ -100,11 +100,10 @@ namespace Bicks
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseHangfireDashboard();
-            /*app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[] { new MyAuthorizationFilter() }
-            });*/
+            });
 
             app.UseEndpoints(endpoints =>
             {
@@ -113,6 +112,11 @@ namespace Bicks
                     areaName: "Invoicing",
                     pattern: "Invoicing/{action=Index}/{id?}",
                     defaults: new { controller = "Invoicing", Area = "Invoicing" });
+                endpoints.MapAreaControllerRoute(
+                    name: "ProductManagement",
+                    areaName: "ProductManagement",
+                    pattern: "ProductManagement/{action=Index}/{id?}",
+                    defaults: new { controller = "ProductManagement", Area = "ProductManagement" });
                 endpoints.MapAreaControllerRoute(
                     name: "Settings",
                     areaName: "Settings",

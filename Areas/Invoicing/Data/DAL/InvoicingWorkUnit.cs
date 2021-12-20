@@ -14,21 +14,21 @@ namespace Bicks.Areas.Invoicing.Data.DAL
         private ApplicationDbContext _context;
         private GenericRepository<Product> productRepository;
 
+        public InvoicingWorkUnit(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public GenericRepository<Product> ProductRepository
         {
             get
             {
                 if (productRepository == null)
                 {
-                    productRepository = new ProductRepository(_context);
+                    productRepository = new GenericRepository<Product>(_context);
                 }
                 return productRepository;
             }
-        }
-
-        public InvoicingWorkUnit(ApplicationDbContext context)
-        {
-            _context = context;
         }
 
         public void Save()
@@ -56,11 +56,55 @@ namespace Bicks.Areas.Invoicing.Data.DAL
             GC.SuppressFinalize(this);
         }
 
-        public ViewAsPdf GenerateExampleInvoice()
+        public SalesInvoiceViewModel GenerateExampleInvoice()
         {
-            SalesInvoiceViewModel salesInvoiceViewModel = new SalesInvoiceViewModel();
-            ViewAsPdf viewAsPdf = new ViewAsPdf("SalesInvoiceTemplate", salesInvoiceViewModel);
-            return viewAsPdf;
+            Product streakyBacon = ProductRepository.GetByID(1);
+            streakyBacon.Category = _context.Categories.Find(1);
+            Product blackPudding = ProductRepository.GetByID(2);
+            blackPudding.Category = _context.Categories.Find(1);
+            Product porkLoin = ProductRepository.GetByID(3);
+            porkLoin.Category = _context.Categories.Find(2);
+            InvoiceItem streakyBaconItem = new InvoiceItem()
+            {
+                Product = streakyBacon,
+                NumCases = 35,
+                TotalWeight = 27.24m
+            };
+            InvoiceItem blackPuddingItem = new InvoiceItem()
+            {
+                Product = blackPudding,
+                NumCases = 35,
+                TotalWeight = 10m
+            };
+            InvoiceItem porkLoinItem = new InvoiceItem()
+            {
+                Product = porkLoin,
+                NumCases = 35,
+                TotalWeight = 8.4m
+            };
+            List<InvoiceItem> invoiceItems = new List<InvoiceItem>
+            {
+                streakyBaconItem,
+                blackPuddingItem,
+                porkLoinItem
+            };
+
+            decimal total = 0m;
+            foreach (InvoiceItem item in invoiceItems)
+            {
+                total += item.Product.PricePerKg * item.TotalWeight;
+            }
+
+            SalesInvoiceViewModel salesInvoiceViewModel = new SalesInvoiceViewModel()
+            {
+                InvoiceNo = 075741,
+                Date = DateTime.Today,
+                InvoiceTo = "Moor Farm",
+                DeliverTo = "Moor Farm",
+                InvoiceItems = invoiceItems,
+                Total = total
+            };
+            return salesInvoiceViewModel;
         }
 
         //Example

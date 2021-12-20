@@ -8,9 +8,11 @@ using Bicks.Areas.Invoicing.Data.DAL;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Bicks.Models;
+using Bicks.Controllers;
 using Rotativa.AspNetCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Hangfire;
 
 namespace Bicks.Areas.Invoicing.Controllers
 {
@@ -21,14 +23,16 @@ namespace Bicks.Areas.Invoicing.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private InvoicingWorkUnit _workUnit;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IBackgroundJobClient _backgroundJobClient;
 
         public InvoicingController(ILogger<InvoicingController> logger, UserManager<ApplicationUser> userManager, InvoicingWorkUnit workUnit,
-            IWebHostEnvironment hostEnvironment)
+            IWebHostEnvironment hostEnvironment, IBackgroundJobClient backgroundJobClient)
         {
             _logger = logger;
             _userManager = userManager;
             _workUnit = workUnit;
             _hostEnvironment = hostEnvironment;
+            _backgroundJobClient = backgroundJobClient;
         }
 
         public IActionResult Index()
@@ -37,23 +41,23 @@ namespace Bicks.Areas.Invoicing.Controllers
         }
         public IActionResult CreateInvoice()
         {
-            return View();
+            return RedirectToAction("GenerateInvoice", _workUnit.GenerateExampleInvoice());
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult GenerateExampleInvoice()
+        public IActionResult GenerateInvoice(SalesInvoiceViewModel salesInvoiceViewModel)
         {
+            string filename = salesInvoiceViewModel.InvoiceNo.ToString("000000") + ".pdf";
             string wwwRootPath = _hostEnvironment.WebRootPath;
-            string directory = wwwRootPath;
-            string filepath = System.IO.Path.Combine("test.txt", directory);
+            string directory = System.IO.Path.Combine(wwwRootPath, "Invoices");
+            string filepath = System.IO.Path.Combine(directory, filename);
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
-            ViewAsPdf viewAsPdf = _workUnit.GenerateExampleInvoice();
-            byte[] pdfAsByteArray = viewAsPdf.BuildFile(this.ControllerContext).Result;
-            System.IO.File.WriteAllBytes(filepath, pdfAsByteArray);
+            ControllerContext controllerContext = new ControllerContext(this.ControllerContext);
+            ViewAsPdf viewAsPdf = new ViewAsPdf("SalesInvoiceTemplate", salesInvoiceViewModel) { FileName = "test.pdf" };
+            var pdfAsByte = viewAsPdf.BuildFile(controllerContext).Result;
+            System.IO.File.WriteAllBytes(filepath, pdfAsByte);
             return RedirectToAction("Index");
         }
     }

@@ -12,7 +12,7 @@ namespace Bicks.Services
         {
             var httpContext = context.GetHttpContext();
 
-            bool result = httpContext.User.IsInRole("SuperAdmin");
+            bool result = httpContext.User.IsInRole("Superadmin");
             // Allow all authenticated users to see the Dashboard (potentially dangerous).
             return result;
         }

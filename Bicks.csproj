@@ -7,41 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20211201161353_JobStatusSeeding.cs" />
-    <Compile Remove="Data\Migrations\20211201161353_JobStatusSeeding.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211201164155_EventTypeSeed.cs" />
-    <Compile Remove="Data\Migrations\20211201164155_EventTypeSeed.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211201165841_SeedingChanges.cs" />
-    <Compile Remove="Data\Migrations\20211201165841_SeedingChanges.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211201170128_RemoveTestSeedingData.cs" />
-    <Compile Remove="Data\Migrations\20211201170128_RemoveTestSeedingData.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211201170434_SeedingChanges.cs" />
-    <Compile Remove="Data\Migrations\20211201170434_SeedingChanges.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211201170651_InitialSeed.cs" />
-    <Compile Remove="Data\Migrations\20211201170651_InitialSeed.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211201171022_RemoveAllSeeding.cs" />
-    <Compile Remove="Data\Migrations\20211201171022_RemoveAllSeeding.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211201171117_InitialSeed.cs" />
-    <Compile Remove="Data\Migrations\20211201171117_InitialSeed.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211202160256_CoreRestructure.cs" />
-    <Compile Remove="Data\Migrations\20211202160256_CoreRestructure.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211202212012_MovedToCustomApplicationUserModel.cs" />
-    <Compile Remove="Data\Migrations\20211202212012_MovedToCustomApplicationUserModel.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211206100032_AddNotNulls.cs" />
-    <Compile Remove="Data\Migrations\20211206100032_AddNotNulls.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211206100817_AddNotNulls.cs" />
-    <Compile Remove="Data\Migrations\20211206100817_AddNotNulls.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211206101200_AddNotNulls.cs" />
-    <Compile Remove="Data\Migrations\20211206101200_AddNotNulls.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211206101355_AddNotNulls.cs" />
-    <Compile Remove="Data\Migrations\20211206101355_AddNotNulls.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211206101811_AddNotNulls.cs" />
-    <Compile Remove="Data\Migrations\20211206101811_AddNotNulls.Designer.cs" />
-    <Compile Remove="Data\Migrations\20211206102655_AddNotNulls.cs" />
-    <Compile Remove="Data\Migrations\20211206102655_AddNotNulls.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.7.27" />
     <PackageReference Include="MailKit" Version="2.15.0" />
     <Compile Remove="Areas\NewFolder\**" />
