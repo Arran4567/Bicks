@@ -26,10 +26,6 @@ namespace Bicks.Data
             modelBuilder.Entity<Category>().ToTable("Categories");
             modelBuilder.Entity<Site>().ToTable("Sites");
 
-            // Seed data
-            seedCategory(modelBuilder);
-            seedProduct(modelBuilder);
-
             base.OnModelCreating(modelBuilder);
         }
 
@@ -59,22 +55,6 @@ namespace Bicks.Data
                     ID = 3,
                     Name = "Strip Loin",
                     PricePerKg = 19.50m
-                }
-            );
-        }
-
-        private void seedCategory(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Category>().HasData(
-                new Category
-                {
-                    ID = 1,
-                    Name = "Bacon",
-                },
-                new Category
-                {
-                    ID = 2,
-                    Name = "Pork",
                 }
             );
         }

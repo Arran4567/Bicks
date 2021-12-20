@@ -6,7 +6,7 @@ using Bicks.Models;
 
 namespace Bicks.Areas.ProductManagement.ViewModels
 {
-    public class EditProductViewModel
+    public class ProductViewModel
     {
         public Product Product { get; set; }
         public List<Category> Categories { get; set; }

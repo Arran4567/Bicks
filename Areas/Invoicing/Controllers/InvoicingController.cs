@@ -13,6 +13,7 @@ using Rotativa.AspNetCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Hangfire;
+using Newtonsoft.Json;
 
 namespace Bicks.Areas.Invoicing.Controllers
 {
@@ -41,11 +42,14 @@ namespace Bicks.Areas.Invoicing.Controllers
         }
         public IActionResult CreateInvoice()
         {
-            return RedirectToAction("GenerateInvoice", _workUnit.GenerateExampleInvoice());
+            SalesInvoiceViewModel salesInvoiceViewModel = _workUnit.GenerateExampleInvoice();
+            TempData["salesInvoiceViewModel"] = JsonConvert.SerializeObject(salesInvoiceViewModel);
+            return RedirectToAction("GenerateInvoice");
         }
 
-        public IActionResult GenerateInvoice(SalesInvoiceViewModel salesInvoiceViewModel)
+        public IActionResult GenerateInvoice()
         {
+            SalesInvoiceViewModel salesInvoiceViewModel = JsonConvert.DeserializeObject<SalesInvoiceViewModel>(TempData["salesInvoiceViewModel"].ToString());
             string filename = salesInvoiceViewModel.InvoiceNo.ToString("000000") + ".pdf";
             string wwwRootPath = _hostEnvironment.WebRootPath;
             string directory = System.IO.Path.Combine(wwwRootPath, "Invoices");

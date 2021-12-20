@@ -38,9 +38,33 @@ namespace Bicks.Areas.ProductManagement.Controllers
             return View();
         }
 
+        public IActionResult ProductList()
+        {
+            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Category).OrderBy(p => p.Name)));
+        }
+
+        public IActionResult CreateProduct()
+        {
+            ProductViewModel editProductViewModel = new ProductViewModel()
+            {
+                Categories = _workUnit.CategoryRepository.Get().ToList()
+            };
+            return View(editProductViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult CreateProduct(ProductViewModel editProductViewModel)
+        { 
+            Category category = _workUnit.CategoryRepository.GetByID(editProductViewModel.Product.Category.ID);
+            editProductViewModel.Product.Category = category;
+            _workUnit.ProductRepository.Insert(editProductViewModel.Product);
+            _workUnit.Save();
+            return RedirectToAction("ProductList");
+        }
+
         public IActionResult EditProduct(int id)
         {
-            EditProductViewModel editProductViewModel = new EditProductViewModel()
+            ProductViewModel editProductViewModel = new ProductViewModel()
             {
                 Product = _workUnit.ProductRepository.GetByID(id),
                 Categories = _workUnit.CategoryRepository.Get().ToList(),
@@ -49,17 +73,59 @@ namespace Bicks.Areas.ProductManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(EditProductViewModel editProductViewModel)
+        public IActionResult EditProduct(ProductViewModel editProductViewModel)
         {
             Category category = _workUnit.CategoryRepository.GetByID(editProductViewModel.Product.Category.ID);
             editProductViewModel.Product.Category = category;
             _workUnit.ProductRepository.Update(editProductViewModel.Product);
+            _workUnit.Save();
             return RedirectToAction("ProductList");
         }
 
-        public IActionResult ProductList()
+        public IActionResult DeleteProduct(int id)
         {
-            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Category).OrderBy(p => p.Name)));
+            Product product = _workUnit.ProductRepository.GetByID(id);
+            _workUnit.ProductRepository.Delete(product);
+            _workUnit.Save();
+            return RedirectToAction("ProductList");
+        }
+
+        public IActionResult CategoryList()
+        {
+            return View(_workUnit.CategoryRepository.Get());
+        }
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateCategory(Category category) 
+        { 
+            _workUnit.CategoryRepository.Insert(category);
+            _workUnit.Save();
+            return RedirectToAction("CategoryList");
+        }
+
+        public IActionResult EditCategory(int id)
+        {
+            return View(_workUnit.CategoryRepository.GetByID(id));
+        }
+
+        [HttpPost]
+        public IActionResult EditCategory(Category category)
+        {
+            _workUnit.CategoryRepository.Update(category);
+            _workUnit.Save();
+            return RedirectToAction("CategoryList");
+        }
+
+        public IActionResult DeleteCategory(int id)
+        {
+            Category category = _workUnit.CategoryRepository.GetByID(id);
+            _workUnit.CategoryRepository.Delete(category);
+            _workUnit.Save();
+            return RedirectToAction("CategoryList");
         }
     }
 }

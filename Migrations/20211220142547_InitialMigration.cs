@@ -229,25 +229,6 @@ namespace Bicks.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "ID", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Bacon" },
-                    { 2, "Pork" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "ID", "CategoryId", "Name", "PricePerKg" },
-                values: new object[,]
-                {
-                    { 1, null, "Streaky Bacon", 5.40m },
-                    { 2, null, "Black Pudding", 2.60m },
-                    { 3, null, "Strip Loin", 19.50m }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",

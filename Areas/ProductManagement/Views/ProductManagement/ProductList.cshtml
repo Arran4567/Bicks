@@ -5,7 +5,7 @@
 @model IEnumerable<Bicks.Models.Product>
 <div class="create">
     <p>
-        <a asp-action="Signup" asp-controller="Home">Create New</a>
+        <a asp-action="CreateProduct">Create New</a>
     </p>
 </div>
 <div class="text-center">
@@ -39,7 +39,6 @@
                     </td>
                     <td>
                         <a asp-action="EditProduct" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-action="ProductDetails" asp-route-id="@item.ID">Details</a> |
                         <a asp-action="DeleteProduct" asp-route-id="@item.ID">Delete</a>
                     </td>
                 </tr>

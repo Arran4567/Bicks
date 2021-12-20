@@ -33,18 +33,6 @@ namespace Bicks.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Name = "Bacon"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            Name = "Pork"
-                        });
                 });
 
             modelBuilder.Entity("Bicks.Models.Client", b =>
@@ -105,26 +93,6 @@ namespace Bicks.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Name = "Streaky Bacon",
-                            PricePerKg = 5.40m
-                        },
-                        new
-                        {
-                            ID = 2,
-                            Name = "Black Pudding",
-                            PricePerKg = 2.60m
-                        },
-                        new
-                        {
-                            ID = 3,
-                            Name = "Strip Loin",
-                            PricePerKg = 19.50m
-                        });
                 });
 
             modelBuilder.Entity("Bicks.Models.Site", b =>
