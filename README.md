@@ -1,5 +1,5 @@
-# Bicks.0
-Recreation of NestLink
+# Bicks
+Management system for Bicks Meat & Poultry
 
 ## Updating Models
 Whenever you update / add a model the required database changes can be applied by:
