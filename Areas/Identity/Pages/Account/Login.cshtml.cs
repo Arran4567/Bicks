@@ -16,6 +16,7 @@ using Bicks.Models;
 namespace Bicks.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [ValidateAntiForgeryToken]
     public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -82,7 +83,6 @@ namespace Bicks.Areas.Identity.Pages.Account
             return Page();
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");

@@ -35,9 +35,8 @@ namespace Bicks.Data
             string superadminUsername = _configuration.GetValue<string>("SuperUser:Username");
             string superadminPassword = _configuration.GetValue<string>("SuperUser:Password");
             string superadminDefaultRole = _configuration.GetValue<string>("SuperUser:Role");
-
+#nullable enable
             ApplicationUser? user = _userManager.FindByEmailAsync(superadminEmail).Result;
-
             if (user == null)
             {
                 user = new ApplicationUser
@@ -50,6 +49,7 @@ namespace Bicks.Data
             }
 
             IdentityRole? role = _roleManager.FindByNameAsync(superadminDefaultRole).Result;
+#nullable disable
 
             if (role == null)
             {

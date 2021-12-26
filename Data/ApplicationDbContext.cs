@@ -34,29 +34,5 @@ namespace Bicks.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Site> Sites { get; set; }
-
-        private void seedProduct(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Product>().HasData(
-                new Product
-                {
-                    ID = 1,
-                    Name = "Streaky Bacon",
-                    PricePerKg = 5.40m
-                },
-                new Product
-                {
-                    ID = 2,
-                    Name = "Black Pudding",
-                    PricePerKg = 2.60m
-                },
-                new Product
-                {
-                    ID = 3,
-                    Name = "Strip Loin",
-                    PricePerKg = 19.50m
-                }
-            );
-        }
     }
 }

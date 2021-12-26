@@ -35,7 +35,7 @@ namespace Bicks.Controllers
                 var stripeEvent = EventUtility.ParseEvent(json);
                 Invoice invoice = null;
 
-                if (stripeEvent.Type == Events.InvoicePaymentSucceeded)
+                if (stripeEvent.Type == Events.InvoicePaid)
                 {
                     invoice = stripeEvent.Data.Object as Invoice;
                     handlePaymentIntentSucceeded(invoice);
@@ -59,6 +59,7 @@ namespace Bicks.Controllers
             }
             catch (StripeException e)
             {
+                Console.WriteLine(e);
                 return BadRequest();
             }
         }
