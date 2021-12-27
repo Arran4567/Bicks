@@ -118,6 +118,11 @@ namespace Bicks
                     pattern: "ProductManagement/{action=Index}/{id?}",
                     defaults: new { controller = "ProductManagement", Area = "ProductManagement" });
                 endpoints.MapAreaControllerRoute(
+                    name: "Sales",
+                    areaName: "Sales",
+                    pattern: "Sales/{action=Index}/{id?}",
+                    defaults: new { controller = "Sales", Area = "Sales" });
+                endpoints.MapAreaControllerRoute(
                     name: "Settings",
                     areaName: "Settings",
                     pattern: "Settings/{action=Index}/{id?}",

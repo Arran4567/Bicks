@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\ProductManagement\Views\Shared\" />
+    <Folder Include="Areas\Sales\ViewModels\" />
     <Folder Include="Areas\Settings\Data\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Library\Web\" />

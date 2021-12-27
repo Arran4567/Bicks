@@ -24,7 +24,7 @@ namespace Bicks.Services
             mailText = mailText.Replace("[name]", FirstName);
             mailText = mailText.Replace("[quotedtime]", quoteTime);
             mailText = mailText.Replace("[problem]", problem);
-            mailText = mailText.Replace("[price]", "£" + totalCost);
+            mailText = mailText.Replace("[price]", $"£{totalCost}");
             mailText = mailText.Replace("fix", solution);
             mailText = mailText.Replace("[referencenumber]", refnumb);
             mailText = mailText.Replace("[ResetLink]", url);

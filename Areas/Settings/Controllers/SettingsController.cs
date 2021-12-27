@@ -9,9 +9,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Bicks.Entities;
 
 namespace Bicks.Areas.Settings.Controllers
 {
+    [Authorize(Roles = Role.Superadmin)]
     [Area("Settings")]
     public class SettingsController : Controller
     {

@@ -1,5 +1,13 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> _userManager
+@inject SignInManager<ApplicationUser> _signInManager
+
+@{
     Layout = "/Views/Shared/_Layout.cshtml";
+
+    ApplicationUser currentUser = _userManager.GetUserAsync(User).Result;
+    IList<string> roles = await _userManager.GetRolesAsync(currentUser);
 }
 
 <div class="root" id="root">
@@ -36,11 +44,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a asp-area="Settings" asp-controller="Settings" asp-action="Index" class="navbar-item nav-link" aria-content="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Settings">
-                                    <i class="fa fa-cog"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a asp-area="Invoicing" asp-controller="Invoicing" asp-action="Index" class="navbar-item nav-link" aria-content="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Invoicing">
                                     <i class="fa fa-money-check-alt"></i>
                                 </a>
@@ -50,6 +53,24 @@
                                     <i class="fa fa-pizza-slice"></i>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a asp-area="Sales" asp-controller="Sales" asp-action="Index" class="navbar-item nav-link" aria-content="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Sales">
+                                    <i class="fa fa-cash-register"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="CustomerManagement" asp-controller="CustomerManagement" asp-action="Index" class="navbar-item nav-link" aria-content="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customer Management">
+                                    <i class="fa fa-user-alt"></i>
+                                </a>
+                            </li>
+                            @if (roles.Contains("Superadmin"))
+                            {
+                                <li class="nav-item">
+                                    <a asp-area="Settings" asp-controller="Settings" asp-action="Index" class="navbar-item nav-link" aria-content="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Settings">
+                                        <i class="fa fa-cog"></i>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -62,14 +83,14 @@
                     <div class="navbar" id="toolbar-wrapper">
                         <ul class="nav flex-row" id="toolbar">
                             @*An example Toolbar item
-                                DON'T ADD THEM HERE, define them in the subview:
-                                @section Toolbar { #DEFINE HERE# }
-                            <li class="nav-item toolbar-item">
-                                <a href="#" class="">
-                                    <i class="fa fa-sad-cry"></i>
-                                    <p class="">Text</p>
-                                </a>
-                            </li>*@
+                                    DON'T ADD THEM HERE, define them in the subview:
+                                    @section Toolbar { #DEFINE HERE# }
+                                <li class="nav-item toolbar-item">
+                                    <a href="#" class="">
+                                        <i class="fa fa-sad-cry"></i>
+                                        <p class="">Text</p>
+                                    </a>
+                                </li>*@
                             @RenderSection("Toolbar", required: false)
                         </ul>
                     </div>

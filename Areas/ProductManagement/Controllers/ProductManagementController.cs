@@ -86,7 +86,6 @@ namespace Bicks.Areas.ProductManagement.Controllers
         {
             Product product = _workUnit.ProductRepository.GetByID(id);
             _workUnit.ProductRepository.Delete(product);
-            _workUnit.Save();
             return RedirectToAction("ProductList");
         }
 
@@ -103,7 +102,6 @@ namespace Bicks.Areas.ProductManagement.Controllers
         public IActionResult CreateCategory(Category category) 
         { 
             _workUnit.CategoryRepository.Insert(category);
-            _workUnit.Save();
             return RedirectToAction("CategoryList");
         }
 

@@ -1,21 +1,19 @@
 ﻿using Bicks.Data;
 using Bicks.Data.DAL;
 using Bicks.Models;
-using Bicks.Areas.Invoicing.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Rotativa.AspNetCore;
+using System.Threading.Tasks;
 
-namespace Bicks.Areas.ProductManagement.Data.DAL
+namespace Bicks.Areas.Sales.Data.DAL
 {
-    public class ProductManagementWorkUnit : IDisposable
+    public class SalesWorkUnit : IDisposable
     {
         private ApplicationDbContext _context;
         private GenericRepository<Product> productRepository;
-        private GenericRepository<Category> categoryRepository;
 
-        public ProductManagementWorkUnit(ApplicationDbContext context)
+        public SalesWorkUnit(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -29,18 +27,6 @@ namespace Bicks.Areas.ProductManagement.Data.DAL
                     productRepository = new GenericRepository<Product>(_context);
                 }
                 return productRepository;
-            }
-        }
-
-        public GenericRepository<Category> CategoryRepository
-        {
-            get
-            {
-                if (categoryRepository == null)
-                {
-                    categoryRepository = new GenericRepository<Category>(_context);
-                }
-                return categoryRepository;
             }
         }
 
@@ -68,11 +54,5 @@ namespace Bicks.Areas.ProductManagement.Data.DAL
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        //Example
-        //public IEnumerable<Job> GetUnassignedJobs()
-        //{
-        //     return JobRepository.Get(j => j.JobStatus.ID == (int)Enums.JobStatuses.JobCreated, q => q.OrderBy(j => j.DueWhen));
-        //}
     }
 }

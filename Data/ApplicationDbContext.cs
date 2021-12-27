@@ -4,7 +4,6 @@ using Bicks.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Enums;
 
 namespace Bicks.Data
 {
