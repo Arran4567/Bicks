@@ -8,16 +8,27 @@ using System.Threading.Tasks;
 
 namespace Bicks.Areas.Sales.Data.DAL
 {
-    public class SalesWorkUnit : IDisposable
+    public class CustomerWorkUnit : IDisposable
     {
         private ApplicationDbContext _context;
+        private GenericRepository<Product> productRepository;
 
-        public SalesWorkUnit(ApplicationDbContext context)
+        public CustomerWorkUnit(ApplicationDbContext context)
         {
             _context = context;
         }
 
-
+        public GenericRepository<Product> ProductRepository
+        {
+            get
+            {
+                if (productRepository == null)
+                {
+                    productRepository = new GenericRepository<Product>(_context);
+                }
+                return productRepository;
+            }
+        }
 
         public void Save()
         {

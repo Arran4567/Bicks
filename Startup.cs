@@ -34,7 +34,6 @@ namespace Bicks
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Stripe.StripeConfiguration.ApiKey = Configuration.GetSection("Stripe").GetSection("APIKey").Value;
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseLazyLoadingProxies()
                     .UseSqlServer(
@@ -122,6 +121,11 @@ namespace Bicks
                     areaName: "Sales",
                     pattern: "Sales/{action=Index}/{id?}",
                     defaults: new { controller = "Sales", Area = "Sales" });
+                endpoints.MapAreaControllerRoute(
+                    name: "Customer",
+                    areaName: "Customer",
+                    pattern: "Customer/{action=Index}/{id?}",
+                    defaults: new { controller = "Customer", Area = "Customer" });
                 endpoints.MapAreaControllerRoute(
                     name: "Settings",
                     areaName: "Settings",
