@@ -1,56 +1,69 @@
 ﻿@model Bicks.Models.Client
 
 @{
-    ViewData["Title"] = "Create Product";
-    ViewData["Heading"] = "Create Product";
+    ViewData["Title"] = "Edit Client";
+    ViewData["Heading"] = "Edit Client";
 }
+
+@section Toolbar {
+    <li class="nav-item toolbar-item">
+        <a href="javascript:submitForm()">
+            <i class="fa fa-check"></i>
+            <p class="">Create Client</p>
+        </a>
+    </li>
+    <li class="nav-item toolbar-item">
+        <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="ClientList">
+            <i class="fa fa-times"></i>
+            <p class="">Cancel</p>
+        </a>
+    </li>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        function submitForm() {
+            $('#create-client-form').submit();
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
 
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
+        <form method="post" id="create-client-form">
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContactName" class="control-label"></label>
+                <label asp-for="ContactName"></label>
                 <input asp-for="ContactName" class="form-control" />
                 <span asp-validation-for="ContactName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContactPhoneNumber" class="control-label"></label>
+                <label asp-for="ContactPhoneNumber"></label>
                 <input asp-for="ContactPhoneNumber" class="form-control" />
                 <span asp-validation-for="ContactPhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContactEmail" class="control-label"></label>
+                <label asp-for="ContactEmail"></label>
                 <input asp-for="ContactEmail" class="form-control" />
                 <span asp-validation-for="ContactEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AddressLine1" class="control-label"></label>
+                <label asp-for="AddressLine1"></label>
                 <input asp-for="AddressLine1" class="form-control" />
                 <span asp-validation-for="AddressLine1" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Postcode" class="control-label"></label>
+                <label asp-for="Postcode"></label>
                 <input asp-for="Postcode" class="form-control" />
                 <span asp-validation-for="Postcode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn" />
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="ProductList">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

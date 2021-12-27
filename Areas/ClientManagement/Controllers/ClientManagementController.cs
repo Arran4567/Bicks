@@ -47,7 +47,7 @@ namespace Bicks.Areas.ClientManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(Client client)
+        public IActionResult CreateClient(Client client)
         {
             _workUnit.ClientManagementRepository.Insert(client);
             _workUnit.Save();
@@ -61,14 +61,14 @@ namespace Bicks.Areas.ClientManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(Client client)
+        public IActionResult EditClient(Client client)
         {
-            Client category = _workUnit.ClientManagementRepository.GetByID(client.ID);
+            _workUnit.ClientManagementRepository.Update(client);
             _workUnit.Save();
             return RedirectToAction("ClientList");
         }
 
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteClient(int id)
         {
             Client client= _workUnit.ClientManagementRepository.GetByID(id);
             _workUnit.ClientManagementRepository.Delete(client);
