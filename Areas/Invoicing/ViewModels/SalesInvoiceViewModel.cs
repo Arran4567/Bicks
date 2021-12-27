@@ -15,10 +15,4 @@ namespace Bicks.Areas.Invoicing.ViewModels
         public List<InvoiceItem> InvoiceItems { get; set; }
         public decimal Total { get; set; }
     }
-    public partial class InvoiceItem
-    {
-        public Product Product { get; set; }
-        public decimal NumCases { get; set; }
-        public decimal TotalWeight { get; set; }
-    }
 }

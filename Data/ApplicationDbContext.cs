@@ -23,7 +23,8 @@ namespace Bicks.Data
             modelBuilder.Entity<Client>().ToTable("Clients");
             modelBuilder.Entity<Product>().ToTable("Products");
             modelBuilder.Entity<Category>().ToTable("Categories");
-            modelBuilder.Entity<Site>().ToTable("Sites");
+            modelBuilder.Entity<Sale>().ToTable("Sales");
+            modelBuilder.Entity<InvoiceItem>().ToTable("InvoiceItems");
 
             base.OnModelCreating(modelBuilder);
         }
@@ -32,6 +33,7 @@ namespace Bicks.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Site> Sites { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
     }
 }

@@ -16,6 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20211227171703_AddedInvoiceItemsAndSalesToContext.cs" />
+    <Compile Remove="Migrations\20211227171703_AddedInvoiceItemsAndSalesToContext.Designer.cs" />
+    <Compile Remove="Migrations\20211227172155_AddedInvoiceItemsAndSales.cs" />
+    <Compile Remove="Migrations\20211227172155_AddedInvoiceItemsAndSales.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -39,14 +46,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\CustomerManagement\ViewModels\" />
+    <Folder Include="Areas\ClientManagement\ViewModels\" />
     <Folder Include="Areas\ProductManagement\Views\Shared\" />
     <Folder Include="Areas\Sales\ViewModels\" />
     <Folder Include="Areas\Settings\Data\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Library\Web\" />
     <Folder Include="wwwroot\Invoices\" />
-    <Folder Include="wwwroot\font\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,14 +2,8 @@
 
 @import "bootstrap.custom.scss";
 
-@font-face {
-    font-family: "Bicks";
-    src: url("~/font/bicks.woff2") format("woff2");
-}
-
 * {
     box-sizing: border-box;
-    font-family: Bicks;
 }
 
 .root {

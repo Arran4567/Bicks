@@ -2,7 +2,7 @@
 using Bicks.Areas.Invoicing.Data.DAL;
 using Bicks.Areas.ProductManagement.Data.DAL;
 using Bicks.Areas.Sales.Data.DAL;
-using Bicks.Areas.CustomerManagement.Data.DAL;
+using Bicks.Areas.ClientManagement.Data.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace Bicks.Data.DAL
             services.AddTransient<InvoicingWorkUnit>();
             services.AddTransient<ProductManagementWorkUnit>();
             services.AddTransient<SalesWorkUnit>();
-            services.AddTransient<CustomerManagementWorkUnit>();
+            services.AddTransient<ClientManagementWorkUnit>();
             return services;
         }
     }

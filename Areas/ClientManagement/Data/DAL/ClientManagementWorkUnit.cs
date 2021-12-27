@@ -6,27 +6,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bicks.Areas.CustomerManagement.Data.DAL
+namespace Bicks.Areas.ClientManagement.Data.DAL
 {
-    public class CustomerManagementWorkUnit : IDisposable
+    public class ClientManagementWorkUnit : IDisposable
     {
         private ApplicationDbContext _context;
-        private GenericRepository<Product> productRepository;
+        private GenericRepository<Client> clientManagementRepository;
 
-        public CustomerManagementWorkUnit(ApplicationDbContext context)
+        public ClientManagementWorkUnit(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public GenericRepository<Product> ProductRepository
+        public GenericRepository<Client> ClientManagementRepository
         {
             get
             {
-                if (productRepository == null)
+                if (clientManagementRepository == null)
                 {
-                    productRepository = new GenericRepository<Product>(_context);
+                    clientManagementRepository = new GenericRepository<Client>(_context);
                 }
-                return productRepository;
+                return clientManagementRepository;
             }
         }
 

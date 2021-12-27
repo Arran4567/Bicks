@@ -33,7 +33,5 @@ namespace Bicks.Models
         [Required]
         [Display(Name = "Postcode")]
         public string Postcode { get; set; }
-
-        public virtual List<Site> Sites { get; set; }
     }
 }

@@ -7825,13 +7825,8 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important; } }
 
-@font-face {
-  font-family: "Bicks";
-  src: url("~/font/bicks.woff2") format("woff2"); }
-
 * {
-  box-sizing: border-box;
-  font-family: Bicks; }
+  box-sizing: border-box; }
 
 .root {
   overflow: hidden;

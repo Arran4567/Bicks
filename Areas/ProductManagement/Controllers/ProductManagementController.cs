@@ -17,13 +17,13 @@ namespace Bicks.Areas.ProductManagement.Controllers
     [Area("ProductManagement")]
     public class ProductManagementController : Controller
     {
-        private readonly ILogger<InvoicingController> _logger;
+        private readonly ILogger<ProductManagementController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private ProductManagementWorkUnit _workUnit;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IBackgroundJobClient _backgroundJobClient;
 
-        public ProductManagementController(ILogger<InvoicingController> logger, UserManager<ApplicationUser> userManager, ProductManagementWorkUnit workUnit,
+        public ProductManagementController(ILogger<ProductManagementController> logger, UserManager<ApplicationUser> userManager, ProductManagementWorkUnit workUnit,
             IWebHostEnvironment hostEnvironment, IBackgroundJobClient backgroundJobClient)
         {
             _logger = logger;
