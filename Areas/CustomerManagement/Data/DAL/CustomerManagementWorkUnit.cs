@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bicks.Areas.Customer.Data.DAL
+namespace Bicks.Areas.CustomerManagement.Data.DAL
 {
-    public class CustomerWorkUnit : IDisposable
+    public class CustomerManagementWorkUnit : IDisposable
     {
         private ApplicationDbContext _context;
         private GenericRepository<Product> productRepository;
 
-        public CustomerWorkUnit(ApplicationDbContext context)
+        public CustomerManagementWorkUnit(ApplicationDbContext context)
         {
             _context = context;
         }

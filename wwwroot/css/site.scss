@@ -2,8 +2,14 @@
 
 @import "bootstrap.custom.scss";
 
+@font-face {
+    font-family: "Bicks";
+    src: url("~/font/bicks.woff2") format("woff2");
+}
+
 * {
     box-sizing: border-box;
+    font-family: Bicks;
 }
 
 .root {
@@ -19,15 +25,27 @@
     height: 66px;
 }
 
+#userDropDown {
+    color: $white;
+}
+
+.navbar-item:hover, .navbar-item:focus {
+    color: $black;
+}
+
 .navbar-item {
     padding: 0.4rem 0.8rem !important;
-    color: #fff;
+    color: $white;
     font-size: 15pt;
     text-align: center;
 }
 
+.btn {
+    background-color: $primary;
+}
+
 .navbar-item:hover, .navbar-item:focus {
-    color: #000;
+    color: $black;
 }
 
 #outer-content-wrapper {
@@ -67,8 +85,12 @@
     }
 
     a:hover, a:focus {
-        color: black;
+        color: $black;
     }
+}
+
+.bg-primary{
+    background-color: $primary;
 }
 
 .navbar-toggler:focus {

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bicks.Areas.Customer.Controllers
+namespace Bicks.Areas.CustomerManagement.Controllers
 {
-    [Area("Customer")]
-    public class CustomerController : Controller
+    [Area("CustomerManagement")]
+    public class CustomerManagementController : Controller
     {
         public IActionResult Index()
         {
