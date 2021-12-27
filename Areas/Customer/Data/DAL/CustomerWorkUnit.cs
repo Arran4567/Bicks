@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bicks.Areas.Sales.Data.DAL
+namespace Bicks.Areas.Customer.Data.DAL
 {
     public class CustomerWorkUnit : IDisposable
     {
