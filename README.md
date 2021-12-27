@@ -1,5 +1,5 @@
-# Bicks.0
-Recreation of NestLink
+# Bicks
+Management system for Bicks Meat & Poultry
 
 ## Updating Models
 Whenever you update / add a model the required database changes can be applied by:
@@ -16,24 +16,24 @@ Don't inject the context into a controller. Create a WorkUnit that provides acce
 1. Create the WorkUnit class under `[YOUR_AREA]/Data/DAL`
 	The class should look like the following
 	```
-	public class TechnicianPortalWorkUnit : IDisposable
+	public class ExampleWorkUnit : IDisposable
     {
         private ApplicationDbContext _context;
-        private GenericRepository<Technician> technicianRepository;
+        private GenericRepository<ExampleObject> exampleObjectRepository;
 
-        public GenericRepository<Technician> TechnicianRepository
+        public GenericRepository<ExampleObject> Example
         {
             get
             {
-                if (technicianRepository == null)
+                if (exampleObjectRepository == null)
                 {
-                    technicianRepository = new GenericRepository<Technician>(_context);
+                    exampleObjectRepository = new GenericRepository<ExampleObject>(_context);
                 }
-                return technicianRepository;
+                return exampleObjectRepository;
             }
         }
 
-         public TechnicianPortalWorkUnit(ApplicationDbContext context)
+         public ExampleWorkUnit(ApplicationDbContext context)
         {
             _context = context;
         }
