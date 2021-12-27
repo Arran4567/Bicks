@@ -1,13 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Bicks.Entities 
 
 @inject UserManager<ApplicationUser> _userManager
-@inject SignInManager<ApplicationUser> _signInManager
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 
     ApplicationUser currentUser = _userManager.GetUserAsync(User).Result;
-    IList<string> roles = await _userManager.GetRolesAsync(currentUser);
 }
 
 <div class="root" id="root">
@@ -63,7 +62,7 @@
                                     <i class="fa fa-user-alt"></i>
                                 </a>
                             </li>
-                            @if (roles.Contains("Superadmin"))
+                            @if (await _userManager.IsInRoleAsync(currentUser, Role.Superadmin))
                             {
                                 <li class="nav-item">
                                     <a asp-area="Settings" asp-controller="Settings" asp-action="Index" class="navbar-item nav-link" aria-content="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Settings">
