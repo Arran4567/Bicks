@@ -92,7 +92,7 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="~/img/Bicks_Logo.png" style="height: 100px" />
+                                <img src="~/img/Invoice-Logo.png" style="height: 100px" />
                             </td>
                             <td>
                                 Invoice #: @Model.InvoiceNo.ToString("000000")<br />
@@ -128,7 +128,7 @@
                 List<Category> categories = new List<Category>();
                 foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
                 {
-                    if (!categories.Contains(invoiceItem.Product.Category))
+                    if (!categories.Any(item => item.ID == invoiceItem.Product.Category.ID))
                     {
                         categories.Add(invoiceItem.Product.Category);
                     }
@@ -137,7 +137,7 @@
                     <td>Product</td>
                     <td>No. of Cases</td>
                     <td>Total Weight</td>
-                    <td>Price Per Kg</td>
+                    <td>Price Per Kg (£)</td>
                     <td>Price (£)</td>
                 </tr>
                 foreach (Category category in categories)
@@ -153,7 +153,7 @@
                     </tr>
                     @foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
                     {
-                        if (invoiceItem.Product.Category == category)
+                        if (invoiceItem.Product.Category.ID == category.ID)
                         {
                             catergoryItems.Add(invoiceItem);
                             subtotal += invoiceItem.Product.PricePerKg * invoiceItem.TotalWeight;
