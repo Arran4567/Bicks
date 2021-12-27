@@ -13,7 +13,7 @@ namespace Bicks.Areas.Sales.Controllers
         {
             return View();
         }
-        public IActionResult NewSale()
+        public IActionResult CreateSale()
         {
             return View();
         }

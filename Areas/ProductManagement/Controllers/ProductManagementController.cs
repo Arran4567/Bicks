@@ -40,7 +40,7 @@ namespace Bicks.Areas.ProductManagement.Controllers
 
         public IActionResult ProductList()
         {
-            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Category).OrderBy(p => p.Name)));
+            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Category.Name).ThenBy(p => p.Name)));
         }
 
         public IActionResult CreateProduct()
@@ -92,7 +92,7 @@ namespace Bicks.Areas.ProductManagement.Controllers
 
         public IActionResult CategoryList()
         {
-            return View(_workUnit.CategoryRepository.Get());
+            return View(_workUnit.CategoryRepository.Get(orderBy: cr => cr.OrderBy(c => c.Name)));
         }
         public IActionResult CreateCategory()
         {
