@@ -1,5 +1,4 @@
-﻿using Bicks.Areas.Invoicing.Controllers;
-using Bicks.Areas.ProductManagement.Data.DAL;
+﻿using Bicks.Areas.ProductManagement.Data.DAL;
 using Bicks.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Hosting;

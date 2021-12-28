@@ -107,11 +107,6 @@ namespace Bicks
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
-                    name: "Invoicing",
-                    areaName: "Invoicing",
-                    pattern: "Invoicing/{action=Index}/{id?}",
-                    defaults: new { controller = "Invoicing", Area = "Invoicing" });
-                endpoints.MapAreaControllerRoute(
                     name: "ProductManagement",
                     areaName: "ProductManagement",
                     pattern: "ProductManagement/{action=Index}/{id?}",

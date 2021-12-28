@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Bicks.Areas.Invoicing.Data.DAL;
 using Bicks.Areas.ProductManagement.Data.DAL;
 using Bicks.Areas.Sales.Data.DAL;
 using Bicks.Areas.ClientManagement.Data.DAL;
@@ -15,7 +14,6 @@ namespace Bicks.Data.DAL
         public static IServiceCollection AddWorkUnits(this IServiceCollection services)
         {
             //services.AddTransient<ExampleWorkUnit>();
-            services.AddTransient<InvoicingWorkUnit>();
             services.AddTransient<ProductManagementWorkUnit>();
             services.AddTransient<SalesWorkUnit>();
             services.AddTransient<ClientManagementWorkUnit>();

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Bicks.Models.Category>
 
 @{
-    ViewData["Title"] = "Category List";
+    ViewData["Title"] = "Categories List";
     ViewData["Heading"] = "Categories";
 }
 
@@ -37,7 +37,7 @@
                     </a>
                 </td>
                 <td>
-                    <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="DeleteCategory   " asp-route-id="@item.ID">
+                    <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="DeleteCategory" asp-route-id="@item.ID">
                         <i class="fa fa-trash"></i>
                         <p class="">Delete Category</p>
                     </a>

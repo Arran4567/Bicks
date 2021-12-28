@@ -11,22 +11,23 @@ namespace Bicks.Areas.Sales.Data.DAL
     public class SalesWorkUnit : IDisposable
     {
         private ApplicationDbContext _context;
-        private GenericRepository<Sale> saleRepository;
+        private SalesRepository saleRepository;
         private GenericRepository<Client> clientRepository;
         private GenericRepository<InvoiceItem> invoiceItemRepository;
+        private GenericRepository<Product> productRepository;
 
         public SalesWorkUnit(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public GenericRepository<Sale> SaleRepository
+        public SalesRepository SaleRepository
         {
             get
             {
                 if (saleRepository == null)
                 {
-                    saleRepository = new GenericRepository<Sale>(_context);
+                    saleRepository = new SalesRepository(_context);
                 }
                 return saleRepository;
             }
@@ -56,9 +57,72 @@ namespace Bicks.Areas.Sales.Data.DAL
             }
         }
 
+        public GenericRepository<Product> ProductRepository
+        {
+            get
+            {
+                if (productRepository == null)
+                {
+                    productRepository = new GenericRepository<Product>(_context);
+                }
+                return productRepository;
+            }
+        }
+
+        public void GenerateExampleSale()
+        {
+            Client client = ClientRepository.GetByID(2);
+            Product streakyBacon = ProductRepository.GetByID(1);
+            streakyBacon.Category = _context.Categories.Find(1);
+            Product blackPudding = ProductRepository.GetByID(2);
+            blackPudding.Category = _context.Categories.Find(1);
+            Product porkLoin = ProductRepository.GetByID(3);
+            porkLoin.Category = _context.Categories.Find(2);
+            InvoiceItem streakyBaconItem = new InvoiceItem()
+            {
+                Product = streakyBacon,
+                NumCases = 35,
+                TotalWeight = 27.24m
+            };
+            InvoiceItem blackPuddingItem = new InvoiceItem()
+            {
+                Product = blackPudding,
+                NumCases = 35,
+                TotalWeight = 10m
+            };
+            InvoiceItem porkLoinItem = new InvoiceItem()
+            {
+                Product = porkLoin,
+                NumCases = 35,
+                TotalWeight = 8.4m
+            };
+            List<InvoiceItem> invoiceItems = new List<InvoiceItem>
+            {
+                streakyBaconItem,
+                blackPuddingItem,
+                porkLoinItem
+            };
+            Sale sale = new Sale
+            {
+                SaleDateTime = DateTime.Now,
+                SaleInvoiceItems = invoiceItems,
+                Client = client
+            };
+            SaleRepository.Insert(sale);
+            Save();
+        }
+
         public void Save()
         {
             _context.SaveChanges();
+        }
+        public void DeleteSale(Sale sale)
+        {
+            foreach(InvoiceItem invoiceItem in sale.SaleInvoiceItems)
+            {
+                InvoiceItemRepository.Delete(invoiceItem);
+            }
+            SaleRepository.Delete(sale);
         }
 
         private bool disposed = false;

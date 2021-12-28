@@ -1,7 +1,6 @@
 ﻿using Bicks.Data;
 using Bicks.Data.DAL;
 using Bicks.Models;
-using Bicks.Areas.Invoicing.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

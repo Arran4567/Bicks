@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bicks.Models;
 
-namespace Bicks.Areas.Invoicing.ViewModels
+namespace Bicks.Areas.Sales.ViewModels
 {
     public class SalesInvoiceViewModel
     {
