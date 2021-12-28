@@ -17,7 +17,7 @@ namespace Bicks.Models
         [Display(Name = "Time Of Sale")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime SaleDateTime { get; set; }
-        [ForeignKey("SaleInvoiceItems")]
+        [ForeignKey("SaleId")]
         [Display(Name = "Invoice Items")]
         public virtual List<InvoiceItem> SaleInvoiceItems { get; set; }
         [ForeignKey("ClientId")]
