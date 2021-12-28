@@ -8,14 +8,16 @@
     @*<link rel="stylesheet" href="/css/bootstrap.custom.css" />*@
     <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css" />
 </head>
 <body>
-    @RenderBody()
     <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
     <script src="/lib/popper.js/umd/popper.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/lib/font-awesome/js/all.min.js"></script>
     <script src="/js/site.js" asp-append-version="true"></script>
+    @RenderBody()
     @RenderSection("Scripts", required: false)
 </body>
 </html>

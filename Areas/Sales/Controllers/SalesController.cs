@@ -54,7 +54,7 @@ namespace Bicks.Areas.Sales.Controllers
         {
             Sale sale = _workUnit.SaleRepository.GetByID(id);
             SalesInvoiceViewModel salesInvoiceViewModel = _workUnit.SaleRepository.GenerateInvoice(sale);
-            string filename = salesInvoiceViewModel.InvoiceNo.ToString("000000") + ".pdf";
+            string filename =  $"{salesInvoiceViewModel.InvoiceNo.ToString("000000")}.pdf";
             string wwwRootPath = _hostEnvironment.WebRootPath;
             string directory = System.IO.Path.Combine(wwwRootPath, "Invoices");
             string filepath = System.IO.Path.Combine(directory, filename);

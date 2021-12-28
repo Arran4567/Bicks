@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Client List";
-    ViewData["Heading"] = "Clients";
 }
 
 @section Toolbar {
@@ -14,49 +13,73 @@
     </li>
 }
 
-<div class="text-center">
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AddressLine1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ContactEmail)
-                </th>
-                <th style="width: 20%" colspan="2">Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddressLine1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ContactEmail)
-                    </td>
-                    <td>
-                        <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="EditClient" asp-route-id="@item.ID">
-                            <i class="fa fa-pen"></i>
-                            <p class="">Edit Client</p>
-                        </a>
-                    </td>
-                    <td>
-                        <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="DeleteClient" asp-route-id="@item.ID">
-                            <i class="fa fa-trash"></i>
-                            <p class="">Delete Client</p>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+<script>
+    $(document).ready(function () {
+        $('#client-table').DataTable({
+            "aaSorting": [],
+            columnDefs: [{
+                orderable: false,
+                targets: [3, 4]
+            }]
+        });
+    });
+</script>
+
+<section class="data-section">
+    <h2 class="section-header">Clients</h2>
+    <div class="section-body">
+        <div class="text-center">
+            <table id="client-table" class="table table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr hidden>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AddressLine1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContactEmail)
+                        </th>
+                        <th colspan="2" style="width: 20%">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AddressLine1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContactEmail)
+                            </td>
+                            <td>
+                                <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="EditClient" asp-route-id="@item.ID">
+                                    <i class="fa fa-pen"></i>
+                                    <p class="">Edit Client</p>
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="DeleteClient" asp-route-id="@item.ID">
+                                    <i class="fa fa-trash"></i>
+                                    <p class="">Delete Client</p>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
