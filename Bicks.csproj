@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -9,10 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.7.27" />
     <PackageReference Include="MailKit" Version="2.15.0" />
-    <Compile Remove="Areas\NewFolder\**" />
-    <Content Remove="Areas\NewFolder\**" />
-    <EmbeddedResource Remove="Areas\NewFolder\**" />
-    <None Remove="Areas\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
