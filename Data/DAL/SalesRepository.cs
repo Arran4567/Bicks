@@ -6,6 +6,7 @@ using Bicks.Models;
 using Bicks.Areas.Sales.ViewModels;
 using Newtonsoft.Json;
 using Rotativa.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bicks.Data.DAL
 {

@@ -1,0 +1,16 @@
+﻿@using Bicks.Models
+@model InvoiceItem
+<h4>@Model.Product.Name</h4>
+<div class="form-row">
+    <input asp-for="Product.ID" hidden />
+    <div class="form-group col-md-6">
+        <label asp-for="NumCases" class="control-label"></label>
+        <input asp-for="NumCases" class="form-control" />
+        <span asp-validation-for="NumCases" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="TotalWeight" class="control-label"></label>
+        <input asp-for="TotalWeight" class="form-control" />
+        <span asp-validation-for="TotalWeight" class="text-danger"></span>
+    </div>
+</div>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Rotativa.AspNetCore;
+using Bicks.Areas.Sales.ViewModels;
 
 namespace Bicks.Areas.Sales.Data.DAL
 {
@@ -69,56 +70,13 @@ namespace Bicks.Areas.Sales.Data.DAL
             }
         }
 
-        public void GenerateExampleSale()
-        {
-            Client client = ClientRepository.GetByID(2);
-            Product streakyBacon = ProductRepository.GetByID(1);
-            streakyBacon.Category = _context.Categories.Find(1);
-            Product blackPudding = ProductRepository.GetByID(2);
-            blackPudding.Category = _context.Categories.Find(1);
-            Product porkLoin = ProductRepository.GetByID(3);
-            porkLoin.Category = _context.Categories.Find(2);
-            InvoiceItem streakyBaconItem = new InvoiceItem()
-            {
-                Product = streakyBacon,
-                NumCases = 35,
-                TotalWeight = 27.24m
-            };
-            InvoiceItem blackPuddingItem = new InvoiceItem()
-            {
-                Product = blackPudding,
-                NumCases = 35,
-                TotalWeight = 10m
-            };
-            InvoiceItem porkLoinItem = new InvoiceItem()
-            {
-                Product = porkLoin,
-                NumCases = 35,
-                TotalWeight = 8.4m
-            };
-            List<InvoiceItem> invoiceItems = new List<InvoiceItem>
-            {
-                streakyBaconItem,
-                blackPuddingItem,
-                porkLoinItem
-            };
-            Sale sale = new Sale
-            {
-                SaleDateTime = DateTime.Now,
-                SaleInvoiceItems = invoiceItems,
-                Client = client
-            };
-            SaleRepository.Insert(sale);
-            Save();
-        }
-
         public void Save()
         {
             _context.SaveChanges();
         }
         public void DeleteSale(Sale sale)
         {
-            foreach(InvoiceItem invoiceItem in sale.SaleInvoiceItems)
+            foreach (InvoiceItem invoiceItem in sale.SaleInvoiceItems)
             {
                 InvoiceItemRepository.Delete(invoiceItem);
             }
@@ -143,6 +101,80 @@ namespace Bicks.Areas.Sales.Data.DAL
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public Sale CreateNewSaleFromViewModel(SaleViewModel saleViewModel)
+        {
+            List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+            foreach (InvoiceItem invoiceItem in saleViewModel.InvoiceItems)
+            {
+                if (invoiceItem.NumCases != decimal.Zero || invoiceItem.TotalWeight != decimal.Zero)
+                    invoiceItems.Add(new InvoiceItem
+                    {
+                        Product = ProductRepository.GetByID(invoiceItem.Product.ID),
+                        NumCases = invoiceItem.NumCases,
+                        TotalWeight = invoiceItem.TotalWeight
+                    });
+            }
+            return new Sale
+            {
+                SaleDateTime = DateTime.Now,
+                SaleInvoiceItems = invoiceItems,
+                Client = ClientRepository.GetByID(saleViewModel.Sale.Client.ID)
+            };
+        }
+
+        public Sale UpdateExistingSaleFromViewModel(SaleViewModel saleViewModel)
+        {
+            Sale sale = SaleRepository.GetByID(saleViewModel.Sale.ID);
+            sale.Client = ClientRepository.GetByID(saleViewModel.Sale.Client.ID);
+            sale.SaleDateTime = DateTime.Now;
+            foreach (InvoiceItem invoiceItem in sale.SaleInvoiceItems)
+            {
+                InvoiceItemRepository.Delete(invoiceItem);
+            }
+            List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+            foreach (InvoiceItem invoiceItem in saleViewModel.InvoiceItems)
+            {
+                if (invoiceItem.NumCases != decimal.Zero || invoiceItem.TotalWeight != decimal.Zero)
+                    invoiceItems.Add(new InvoiceItem
+                    {
+                        Product = ProductRepository.GetByID(invoiceItem.Product.ID),
+                        NumCases = invoiceItem.NumCases,
+                        TotalWeight = invoiceItem.TotalWeight
+                    });
+            }
+            sale.SaleInvoiceItems = invoiceItems;
+            return sale;
+        }
+
+        public SaleViewModel GetViewModelFromSale(Sale sale)
+        {
+            List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+            List<Product> products = ProductRepository.Get(orderBy: pr => pr.OrderBy(c => c.ID)).ToList();
+            List<Client> clients = ClientRepository.Get(orderBy: cr => cr.OrderBy(c => c.Name)).ToList();
+            foreach (Product product in products)
+            {
+                InvoiceItem invoiceItem = new InvoiceItem
+                {
+                    Product = product
+                };
+                foreach (InvoiceItem item in sale.SaleInvoiceItems)
+                {
+                    if (item.Product.ID == product.ID)
+                    {
+                        invoiceItem = item;
+                    }
+                }
+                invoiceItems.Add(invoiceItem);
+            }
+            SaleViewModel salesViewModel = new SaleViewModel
+            {
+                Sale = sale,
+                InvoiceItems = invoiceItems,
+                ClientList = clients,
+            };
+            return salesViewModel;
         }
 
         //Example

@@ -150,8 +150,8 @@
                             </td>
                             <td>
                                 @{
-                                    string invoiceLocation = $"../Invoices/{item.ID.ToString("000000")}.pdf";
-                                    string invoiceLocationCheck = $"{ViewData["RootLoc"]}/Invoices/{item.ID.ToString("000000")}.pdf";
+                                    string invoiceLocation = $"../Invoices/{item.ID.ToString("0000000")}.pdf?t={DateTime.Now.Ticks}";
+                                    string invoiceLocationCheck = $"{ViewData["RootLoc"]}/Invoices/{item.ID.ToString("0000000")}.pdf";
                                     if (File.Exists(invoiceLocationCheck))
                                     {
                                         <a href="@invoiceLocation" target="_blank">

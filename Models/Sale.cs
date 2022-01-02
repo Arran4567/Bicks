@@ -12,7 +12,7 @@ namespace Bicks.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "Invoice #")]
-        [DisplayFormat(DataFormatString ="{0:000000}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString ="{0:0000000}", ApplyFormatInEditMode = true)]
         public int ID { get; set; }
         [Required]
         [Display(Name = "Time Of Sale")]

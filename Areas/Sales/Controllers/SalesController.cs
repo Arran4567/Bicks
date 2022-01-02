@@ -45,33 +45,68 @@ namespace Bicks.Areas.Sales.Controllers
             return View(_workUnit.SaleRepository.Get(orderBy: sr => sr.OrderByDescending(s => s.ID)));
         }
 
-        public IActionResult EditSale(int id)
+        public IActionResult CreateSale()
         {
-            return View();
+            SaleViewModel saleViewModel = new SaleViewModel
+            {
+                ClientList = _workUnit.ClientRepository.Get(orderBy: cr => cr.OrderBy(c => c.Name)).ToList(),
+                InvoiceItems = new List<InvoiceItem>()
+            };
+            List<Product> products = _workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.ID)).ToList();
+            foreach (Product product in products)
+            {
+                saleViewModel.InvoiceItems.Add(new InvoiceItem
+                {
+                    Product = product
+                });
+            }
+            return View(saleViewModel);
         }
 
-        public IActionResult GenerateInvoice(int id)
+        [HttpPost]
+        public IActionResult CreateSale(SaleViewModel saleViewModel)
+        {
+            _workUnit.SaleRepository.Insert(_workUnit.CreateNewSaleFromViewModel(saleViewModel));
+            _workUnit.Save();
+            return RedirectToAction("SalesList");
+        }
+
+        public IActionResult EditSale(int id)
+        {
+            Sale sale = _workUnit.SaleRepository.GetByID(id);
+            return View(_workUnit.GetViewModelFromSale(sale));
+        }
+
+        [HttpPost]
+        public IActionResult EditSale(SaleViewModel saleViewModel)
+        {
+            _workUnit.SaleRepository.Update(_workUnit.UpdateExistingSaleFromViewModel(saleViewModel));
+            _workUnit.Save();
+            return RedirectToAction("SalesList");
+        }
+
+        public async Task<IActionResult> GenerateInvoice(int id)
         {
             Sale sale = _workUnit.SaleRepository.GetByID(id);
             SalesInvoiceViewModel salesInvoiceViewModel = _workUnit.SaleRepository.GenerateInvoice(sale);
-            string filename =  $"{salesInvoiceViewModel.InvoiceNo.ToString("000000")}.pdf";
+            string filename =  $"{salesInvoiceViewModel.InvoiceNo.ToString("0000000")}.pdf";
             string wwwRootPath = _hostEnvironment.WebRootPath;
             string directory = System.IO.Path.Combine(wwwRootPath, "Invoices");
             string filepath = System.IO.Path.Combine(directory, filename);
+
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
-            ControllerContext controllerContext = new ControllerContext(this.ControllerContext);
-            ViewAsPdf viewAsPdf = new ViewAsPdf("SalesInvoiceTemplate", salesInvoiceViewModel) { FileName = $"{salesInvoiceViewModel.InvoiceNo}.pdf" };
-            var pdfAsByte = viewAsPdf.BuildFile(controllerContext).Result;
-            System.IO.File.WriteAllBytes(filepath, pdfAsByte);
-            return RedirectToAction("SalesList");
-        }
 
-        public IActionResult GenerateExampleSale()
-        {
-            _workUnit.GenerateExampleSale();
+            ControllerContext controllerContext = new ControllerContext(this.ControllerContext);
+            ViewAsPdf viewAsPdf = new ViewAsPdf("SalesInvoiceTemplate", salesInvoiceViewModel) { FileName = filename };
+            var pdfAsByte = await viewAsPdf.BuildFile(controllerContext);
+            if (System.IO.File.Exists(filepath))
+            {
+                System.IO.File.Delete(filepath);
+            }
+            System.IO.File.WriteAllBytes(filepath, pdfAsByte);
             return RedirectToAction("SalesList");
         }
 
