@@ -6,6 +6,28 @@
     ViewData["Heading"] = "Create Sales";
 }
 
+<style>
+    .accordion {
+        border: none;
+        text-align: left;
+        width: 100%;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+
+    .panel {
+        padding: 0 18px;
+        display: none;
+        background-color: white;
+        overflow: hidden;
+    }
+</style>
+
 @section Toolbar {
     <li class="nav-item toolbar-item">
         <a href="javascript:submitForm()">
@@ -25,6 +47,23 @@
     <script type="text/javascript">
         function submitForm() {
             $('#create-sale-form').submit();
+        }
+    </script>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                event.preventDefault();
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
         }
     </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -57,26 +96,29 @@
         {
             <div class="row">
                 <div class="col-12 col-xl-12">
-                    <section class="data-section">
-                        <h2 class="section-header">@category.Name</h2>
-                        <div class="section-body">
-                            <div class="row">
-                                @for (int i = 0; i < Model.InvoiceItems.Count; i++)
-                                {
-                                    if (Model.InvoiceItems[i].Product.Category.ID == category.ID)
+                    <div>
+                        <section class="data-section">
+                            <button class="accordion section-header">@category.Name</button>
+                            <div class="panel section-body">
+                                <div class="row">
+                                    @for (int i = 0; i < Model.InvoiceItems.Count; i++)
                                     {
-                                        <div class="col-2">
-                                            <div class="card">
-                                                @Html.EditorFor(m => m.InvoiceItems[i])
+                                        if (Model.InvoiceItems[i].Product.Category.ID == category.ID)
+                                        {
+                                            <div class="col-md-3 mb-2">
+                                                <div class="card">
+                                                    @Html.EditorFor(m => m.InvoiceItems[i])
+                                                </div>
                                             </div>
-                                        </div>
+                                        }
                                     }
-                                }
+                                </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </div>
                 </div>
             </div>
+
         }
     }
 </form>

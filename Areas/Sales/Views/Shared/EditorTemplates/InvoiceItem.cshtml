@@ -1,25 +1,23 @@
 ﻿@using Bicks.Models
 @model InvoiceItem
 
-    <div class="card-body">
-        <div class="row">
-            <h4 style="text-align: center;">@Model.Product.Name</h4>
-        </div>
-        <div class="row">
-            <input asp-for="Product.ID" hidden />
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label asp-for="NumCases" class="control-label"></label>
-                    <input asp-for="NumCases" class="form-control" />
-                    <span asp-validation-for="NumCases" class="text-danger"></span>
-                </div>
+<h5 class="card-header" style="text-align: center;">@Model.Product.Name</h5>
+<div class="card-body">
+    <div class="row">
+        <input asp-for="Product.ID" hidden />
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="NumCases" class="control-label"></label>
+                <input asp-for="NumCases" class="form-control" />
+                <span asp-validation-for="NumCases" class="text-danger"></span>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label asp-for="TotalWeight" class="control-label"></label>
-                    <input asp-for="TotalWeight" class="form-control" />
-                    <span asp-validation-for="TotalWeight" class="text-danger"></span>
-                </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="TotalWeight" class="control-label"></label>
+                <input asp-for="TotalWeight" class="form-control" />
+                <span asp-validation-for="TotalWeight" class="text-danger"></span>
             </div>
         </div>
     </div>
+</div>
