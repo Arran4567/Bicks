@@ -19,7 +19,7 @@ namespace Bicks.Areas.ProductManagement.Data.DAL
             _context = context;
         }
 
-        public GenericRepository<Product> ProductRepository
+        public ProductRepository ProductRepository
         {
             get
             {

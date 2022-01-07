@@ -13,17 +13,19 @@
     </li>
 }
 
-<script>
-    $(document).ready(function () {
-        $('#product-table').DataTable({
-            "aaSorting": [],
-            columnDefs: [{
-                orderable: false,
-                targets: [3, 4]
-            }]
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $('#product-table').DataTable({
+                "aaSorting": [],
+                columnDefs: [{
+                    orderable: false,
+                    targets: [3, 4]
+                }]
+            });
         });
-    });
-</script>
+    </script>
+}
 
 <section class="data-section">
     <h2 class="section-header">Clients</h2>

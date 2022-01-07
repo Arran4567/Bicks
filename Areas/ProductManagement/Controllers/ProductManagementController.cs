@@ -89,6 +89,19 @@ namespace Bicks.Areas.ProductManagement.Controllers
             return RedirectToAction("ProductList");
         }
 
+        public IActionResult StockList()
+        {
+            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Category.Name).ThenBy(p => p.Name)));
+        }
+
+        [HttpPost]
+        public IActionResult StockList(List<Product> products)
+        {
+            _workUnit.ProductRepository.UpdateStock(products);
+            _workUnit.Save();
+            return RedirectToAction("StockList");
+        }
+
         public IActionResult CategoryList()
         {
             return View(_workUnit.CategoryRepository.Get(orderBy: cr => cr.OrderBy(c => c.Name)));

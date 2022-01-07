@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Product List";
+    ViewData["Heading"] = "Products";
+}
+@model IEnumerable<Bicks.Models.Product>
+
+@section Toolbar {
+    <li class="nav-item toolbar-item">
+        <a href="javascript:submitForm()">
+            <i class="fa fa-check"></i>
+            <p class="">Confirm Stock Change</p>
+        </a>
+    </li>
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#product-table').DataTable({
+                "aaSorting": [],
+                columnDefs: [{
+                    orderable: false,
+                    targets: [3, 4]
+                }]
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function submitForm() {
+            $('#edit-stock-form').submit();
+        }
+    </script>
+}
+<form method="post" id="edit-stock-form">
+    <section class="data-section">
+        <h2 class="section-header">Clients</h2>
+        <div class="section-body">
+            <div class="text-center">
+                <table id="product-table" class="table table-striped" cellspacing="0" width="100%">
+                    <thead>
+                        <tr hidden>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Category)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CasesInStock)
+                            </th>
+                            <th style="width: 25%" colspan="2">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.ToList()[i].Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.ToList()[i].Category.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.ToList()[i].CasesInStock)
+                                </td>
+                                <td>
+                                    Add/Remove Cases
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(modelItem => Model.ToList()[i].ID)
+                                    @Html.EditorFor(modelItem => Model.ToList()[i].CasesInStock)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</form>

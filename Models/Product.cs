@@ -18,6 +18,9 @@ namespace Bicks.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
         [Required]
+        [Display(Name = "Cases in Stock")]
+        public int CasesInStock { get; set; }
+        [Required]
         [Display(Name = "Price Per Kg")]
         [Column(TypeName = "Decimal(18, 2)")]
         public decimal PricePerKg { get; set; }
