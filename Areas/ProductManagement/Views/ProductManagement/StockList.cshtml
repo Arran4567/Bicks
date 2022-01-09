@@ -71,12 +71,17 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => Model.ToList()[i].CasesInStock)
                                 </td>
-                                <td>
-                                    Add/Remove Cases
+                                <td style="text-align: right;">
+                                    Add/Remove Cases:
                                 </td>
-                                <td>
+                                <td style="text-align: left;">
+                                    @{
+                                        int minVal = Model.ToList()[i].CasesInStock * -1;
+                                        Model.ToList()[i].CasesInStock = 0;
+
+                                    }
                                     @Html.HiddenFor(modelItem => Model.ToList()[i].ID)
-                                    @Html.EditorFor(modelItem => Model.ToList()[i].CasesInStock)
+                                    @Html.EditorFor(modelItem => Model.ToList()[i].CasesInStock, new { htmlAttributes = new { min = minVal } })
                                 </td>
                             </tr>
                         }

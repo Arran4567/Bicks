@@ -16,6 +16,8 @@
     <Compile Remove="Migrations\20211227171703_AddedInvoiceItemsAndSalesToContext.Designer.cs" />
     <Compile Remove="Migrations\20211227172155_AddedInvoiceItemsAndSales.cs" />
     <Compile Remove="Migrations\20211227172155_AddedInvoiceItemsAndSales.Designer.cs" />
+    <Compile Remove="Migrations\20220107154531_MinNumCases.cs" />
+    <Compile Remove="Migrations\20220107154531_MinNumCases.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

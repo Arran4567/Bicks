@@ -16,7 +16,8 @@ namespace Bicks.Data.DAL
         {
             foreach(Product product in products)
             {
-                context.Products.Where(p => p.ID == product.ID).First().CasesInStock += product.CasesInStock;
+                int newVal = context.Products.Where(p => p.ID == product.ID).First().CasesInStock + product.CasesInStock;
+                context.Products.Where(p => p.ID == product.ID).First().CasesInStock = newVal > 0 ? newVal : 0;
             }
         }
     }
