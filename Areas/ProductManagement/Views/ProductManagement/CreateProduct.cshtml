@@ -83,7 +83,7 @@
                 <input asp-for="Product.PricePerKg" class="form-control" />
                 <span asp-validation-for="Product.PricePerKg" class="text-danger"></span>
             </div>
-            @if (Model.Categories.Count == 0)
+            @if (Model.SubCategories.Count == 0)
             {
                 <div id="errorBox">
                     <div id="errorBox-inner" class="error-box">
@@ -97,14 +97,14 @@
             else
             {
                 <div class="form-group">
-                    <label asp-for="Product.Category" class="control-label"></label>
-                    <select asp-for="Product.Category.ID">
-                        @foreach (Category category in Model.Categories)
+                    <label asp-for="Product.SubCategory" class="control-label"></label>
+                    <select asp-for="Product.SubCategory.ID">
+                        @foreach (SubCategory subCategory in Model.SubCategories)
                         {
-                            <option value="@category.ID">@category.Name</option>
+                            <option value="@subCategory.ID">@subCategory.Name</option>
                         }
                     </select>
-                    <span asp-validation-for="Product.Category" class="text-danger"></span>
+                    <span asp-validation-for="Product.SubCategory" class="text-danger"></span>
                 </div>
             }
         </form>

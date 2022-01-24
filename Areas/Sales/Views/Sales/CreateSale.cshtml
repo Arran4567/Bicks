@@ -85,9 +85,9 @@
         List<Category> categories = new List<Category>();
         foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
         {
-            if (!categories.Any(item => item.ID == invoiceItem.Product.Category.ID))
+            if (!categories.Any(item => item.ID == invoiceItem.Product.SubCategory.Category.ID))
             {
-                categories.Add(invoiceItem.Product.Category);
+                categories.Add(invoiceItem.Product.SubCategory.Category);
             }
         }
     }
@@ -103,7 +103,7 @@
                                 <div class="row">
                                     @for (int i = 0; i < Model.InvoiceItems.Count; i++)
                                     {
-                                        if (Model.InvoiceItems[i].Product.Category.ID == category.ID)
+                                        if (Model.InvoiceItems[i].Product.SubCategory.Category.ID == category.ID)
                                         {
                                             <div class="col-md-3 mb-2">
                                                 <div class="card">

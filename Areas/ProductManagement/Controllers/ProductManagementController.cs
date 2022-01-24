@@ -1,5 +1,6 @@
 ﻿using Bicks.Areas.ProductManagement.Data.DAL;
 using Bicks.Models;
+using Bicks.ViewModels;
 using Hangfire;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bicks.Areas.ProductManagement.ViewModels;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bicks.Areas.ProductManagement.Controllers
 {
@@ -39,23 +42,24 @@ namespace Bicks.Areas.ProductManagement.Controllers
 
         public IActionResult ProductList()
         {
-            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Category.Name).ThenBy(p => p.Name)));
+            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.SubCategory.Category.Name).ThenBy(p => p.Name)));
         }
 
         public IActionResult CreateProduct()
         {
             ProductViewModel editProductViewModel = new ProductViewModel()
             {
-                Categories = _workUnit.CategoryRepository.Get().ToList()
+                SubCategories = _workUnit.SubCategoryRepository.Get().ToList()
             };
             return View(editProductViewModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateProduct(ProductViewModel editProductViewModel)
         { 
-            Category category = _workUnit.CategoryRepository.GetByID(editProductViewModel.Product.Category.ID);
-            editProductViewModel.Product.Category = category;
+            Category category = _workUnit.CategoryRepository.GetByID(editProductViewModel.Product.SubCategory.Category.ID);
+            editProductViewModel.Product.SubCategory.Category = category;
             _workUnit.ProductRepository.Insert(editProductViewModel.Product);
             _workUnit.Save();
             return RedirectToAction("ProductList");
@@ -66,16 +70,17 @@ namespace Bicks.Areas.ProductManagement.Controllers
             ProductViewModel editProductViewModel = new ProductViewModel()
             {
                 Product = _workUnit.ProductRepository.GetByID(id),
-                Categories = _workUnit.CategoryRepository.Get().ToList(),
+                SubCategories = _workUnit.SubCategoryRepository.Get().ToList(),
             };
             return View(editProductViewModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditProduct(ProductViewModel editProductViewModel)
         {
-            Category category = _workUnit.CategoryRepository.GetByID(editProductViewModel.Product.Category.ID);
-            editProductViewModel.Product.Category = category;
+            SubCategory subCategory = _workUnit.SubCategoryRepository.GetByID(editProductViewModel.Product.SubCategory.ID);
+            editProductViewModel.Product.SubCategory = subCategory;
             _workUnit.ProductRepository.Update(editProductViewModel.Product);
             _workUnit.Save();
             return RedirectToAction("ProductList");
@@ -91,10 +96,11 @@ namespace Bicks.Areas.ProductManagement.Controllers
 
         public IActionResult StockList()
         {
-            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Category.Name).ThenBy(p => p.Name)));
+            return View(_workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.SubCategory.Category.Name).ThenBy(p => p.Name)));
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult StockList(List<Product> products)
         {
             _workUnit.ProductRepository.UpdateStock(products);
@@ -112,6 +118,7 @@ namespace Bicks.Areas.ProductManagement.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateCategory(Category category) 
         { 
             _workUnit.CategoryRepository.Insert(category);
@@ -119,12 +126,18 @@ namespace Bicks.Areas.ProductManagement.Controllers
             return RedirectToAction("CategoryList");
         }
 
+        [HttpGet]
         public IActionResult EditCategory(int id)
         {
-            return View(_workUnit.CategoryRepository.GetByID(id));
+            if (_workUnit.SubCategoryRepository.GetByID(id) != null)
+            {
+                return View(_workUnit.CategoryRepository.GetByID(id));
+            }
+            return View("CategoryList");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditCategory(Category category)
         {
             _workUnit.CategoryRepository.Update(category);
@@ -138,6 +151,56 @@ namespace Bicks.Areas.ProductManagement.Controllers
             _workUnit.CategoryRepository.Delete(category);
             _workUnit.Save();
             return RedirectToAction("CategoryList");
+        }
+
+        public IActionResult SubCategoryList()
+        {
+            return View(_workUnit.SubCategoryRepository.Get(orderBy: cr => cr.OrderBy(c => c.Name)));
+        }
+
+        public IActionResult CreateSubCategory()
+        {
+            ViewBag.Categories = _workUnit.CategoryRepository.Get().ToList();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateSubCategory(SubCategory subCategory)
+        {
+            Category category = _workUnit.CategoryRepository.GetByID(subCategory.Category.ID);
+            subCategory.Category = category;
+            _workUnit.SubCategoryRepository.Insert(subCategory);
+            _workUnit.Save();
+            return RedirectToAction("SubCategoryList");
+        }
+
+        [HttpGet]
+        public IActionResult EditSubCategory(int id)
+        {
+            ViewBag.Categories = _workUnit.CategoryRepository.Get().ToList();
+            if (_workUnit.SubCategoryRepository.GetByID(id) != null)
+            {
+                return View(_workUnit.SubCategoryRepository.GetByID(id));
+            }
+            return View("SubCategoryList");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditSubCategory(SubCategory subCategory)
+        {
+            _workUnit.SubCategoryRepository.Update(subCategory);
+            _workUnit.Save();
+            return RedirectToAction("SubCategoryList");
+        }
+
+        public IActionResult DeleteSubCategory(int id)
+        {
+            SubCategory subCategory = _workUnit.SubCategoryRepository.GetByID(id);
+            _workUnit.SubCategoryRepository.Delete(subCategory);
+            _workUnit.Save();
+            return RedirectToAction("SubCategoryList");
         }
     }
 }

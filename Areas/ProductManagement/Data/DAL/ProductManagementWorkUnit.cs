@@ -13,6 +13,7 @@ namespace Bicks.Areas.ProductManagement.Data.DAL
         private ApplicationDbContext _context;
         private ProductRepository productRepository;
         private GenericRepository<Category> categoryRepository;
+        private GenericRepository<SubCategory> subCategoryRepository;
 
         public ProductManagementWorkUnit(ApplicationDbContext context)
         {
@@ -40,6 +41,18 @@ namespace Bicks.Areas.ProductManagement.Data.DAL
                     categoryRepository = new GenericRepository<Category>(_context);
                 }
                 return categoryRepository;
+            }
+        }
+
+        public GenericRepository<SubCategory> SubCategoryRepository
+        {
+            get
+            {
+                if (subCategoryRepository == null)
+                {
+                    subCategoryRepository = new GenericRepository<SubCategory>(_context);
+                }
+                return subCategoryRepository;
             }
         }
 

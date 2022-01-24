@@ -46,14 +46,14 @@
                 <span asp-validation-for="Product.PricePerKg" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.Category" class="control-label"></label>
-                <select id="CompanyType" asp-for="Product.Category.ID">
-                    @foreach (Category category in Model.Categories)
+                <label asp-for="Product.SubCategory" class="control-label"></label>
+                <select id="CompanyType" asp-for="Product.SubCategory.ID">
+                    @foreach (SubCategory subCategory in Model.SubCategories)
                     {
-                        <option value="@category.ID">@category.Name</option>
+                        <option value="@subCategory.ID">@subCategory.Name</option>
                     }
                 </select>
-                <span asp-validation-for="Product.Category" class="text-danger"></span>
+                <span asp-validation-for="Product.SubCategory" class="text-danger"></span>
             </div>
         </form>
     </div>

@@ -1,0 +1,72 @@
+﻿@using Bicks.Models
+@model SubCategory
+
+@{
+    ViewData["Title"] = "Edit Subcategory";
+    ViewData["Heading"] = "Edit Subcategory";
+}
+
+@section Toolbar {
+    <li class="nav-item toolbar-item">
+        <a href="javascript:submitForm()">
+            <i class="fa fa-check"></i>
+            <p class="">Create Subcategory</p>
+        </a>
+    </li>
+    <li class="nav-item toolbar-item">
+        <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="SubCategoryList">
+            <i class="fa fa-times"></i>
+            <p class="">Cancel</p>
+        </a>
+    </li>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        function submitForm() {
+            $('#edit-SubCatergory-form').submit();
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" id="edit-SubCatergory-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category"></label>
+
+                @if (ViewBag.Categories.Count == 0)
+                {
+                    <div id="errorBox">
+                        <div id="errorBox-inner" class="error-box">
+                            <div>
+                                <h3>No Categories Found</h3>
+                                <a class="btn" asp-action="CreateCategory">Create Category</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <select asp-for="Category.ID">
+                            @foreach (Category category in ViewBag.Categories)
+                            {
+                                <option value="@category.ID">@category.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                }
+            </div>
+        </form>
+    </div>
+</div>

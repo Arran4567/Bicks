@@ -128,9 +128,9 @@
                 List<Category> categories = new List<Category>();
                 foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
                 {
-                    if (!categories.Any(item => item.ID == invoiceItem.Product.Category.ID))
+                    if (!categories.Any(item => item.ID == invoiceItem.Product.SubCategory.Category.ID))
                     {
-                        categories.Add(invoiceItem.Product.Category);
+                        categories.Add(invoiceItem.Product.SubCategory.Category);
                     }
                 }
                 <tr class="heading">
@@ -153,7 +153,7 @@
                     </tr>
                     @foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
                     {
-                        if (invoiceItem.Product.Category.ID == category.ID)
+                        if (invoiceItem.Product.SubCategory.Category.ID == category.ID)
                         {
                             catergoryItems.Add(invoiceItem);
                             subtotal += invoiceItem.Product.PricePerKg * invoiceItem.TotalWeight;
@@ -231,7 +231,11 @@
                     </table>
                 </td>
             </tr>
-
+            <tr>
+                <td colspan="5">
+                    This is a terms and conditions paragraph
+                </td>
+            </tr>
         </table>
     </div>
 </body>

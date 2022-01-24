@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Bicks.Models.SubCategory>
+
+@{
+    ViewData["Title"] = "Subcategory List";
+    ViewData["Heading"] = "Subcategories";
+}
+
+@section Toolbar {
+    <li class="nav-item toolbar-item">
+        <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="CreateSubCategory">
+            <i class="fa fa-plus"></i>
+            <p class="">Add Subcategory</p>
+        </a>
+    </li>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#category-table').DataTable({
+            "aaSorting": [],
+            columnDefs: [{
+                orderable: false,
+                targets: [1, 2]
+            }]
+        });
+    });
+</script>
+
+<section class="data-section">
+    <h2 class="section-header">Clients</h2>
+    <div class="section-body">
+        <div class="text-center">
+            <table id="category-table" class="table table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr hidden>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th style="width: 20%" colspan="2">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="EditSubCategory" asp-route-id="@item.ID">
+                                <i class="fa fa-pen"></i>
+                                <p class="">Edit Subcategory</p>
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="DeleteSubCategory" asp-route-id="@item.ID">
+                                <i class="fa fa-trash"></i>
+                                <p class="">Delete Subcategory</p>
+                            </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

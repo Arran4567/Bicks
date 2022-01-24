@@ -34,17 +34,20 @@ namespace Bicks.Areas.Sales.Controllers
             _backgroundJobClient = backgroundJobClient;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult SalesList()
         {
             ViewData["RootLoc"] = _hostEnvironment.WebRootPath;
             return View(_workUnit.SaleRepository.Get(orderBy: sr => sr.OrderByDescending(s => s.ID)));
         }
 
+        [HttpGet]
         public IActionResult CreateSale()
         {
             SaleViewModel saleViewModel = new SaleViewModel
@@ -71,6 +74,7 @@ namespace Bicks.Areas.Sales.Controllers
             return RedirectToAction("SalesList");
         }
 
+        [HttpGet]
         public IActionResult EditSale(int id)
         {
             Sale sale = _workUnit.SaleRepository.GetByID(id);
@@ -85,6 +89,7 @@ namespace Bicks.Areas.Sales.Controllers
             return RedirectToAction("SalesList");
         }
 
+        [HttpGet]
         public async Task<IActionResult> GenerateInvoice(int id)
         {
             Sale sale = _workUnit.SaleRepository.GetByID(id);
@@ -109,7 +114,8 @@ namespace Bicks.Areas.Sales.Controllers
             System.IO.File.WriteAllBytes(filepath, pdfAsByte);
             return RedirectToAction("SalesList");
         }
-
+        
+        [HttpGet]
         public IActionResult DeleteSale(int id)
         {
             Sale sale = _workUnit.SaleRepository.GetByID(id);

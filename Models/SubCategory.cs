@@ -4,27 +4,19 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Bicks.Models;
 
 namespace Bicks.Models
 {
-    public class Product
+    public class SubCategory
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "ID")]
         public int ID { get; set; }
-        [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
-        [Required]
-        [Display(Name = "Cases in Stock")]
-        public int CasesInStock { get; set; }
-        [Required]
-        [Display(Name = "Price Per Kg")]
-        [Column(TypeName = "Decimal(18, 2)")]
-        public decimal PricePerKg { get; set; }
-        [ForeignKey("SubCategoryId")]
-        public virtual SubCategory SubCategory { get; set; }
+        [Display(Name = "Category")]
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
     }
 }
