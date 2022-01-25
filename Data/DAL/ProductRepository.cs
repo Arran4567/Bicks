@@ -14,11 +14,15 @@ namespace Bicks.Data.DAL
 
         public void UpdateStock(List<Product> products)
         {
-            foreach(Product product in products)
+            foreach (Product product in products)
             {
-                int newVal = context.Products.Where(p => p.ID == product.ID).First().CasesInStock + product.CasesInStock;
-                context.Products.Where(p => p.ID == product.ID).First().CasesInStock = newVal > 0 ? newVal : 0;
+                UpdateProductStock(product.ID, product.CasesInStock);
             }
+        }
+        public void UpdateProductStock(int id, int stockChange)
+        {
+            Product product = dbSet.Find(id);
+            product.CasesInStock = product.CasesInStock + stockChange > 0 ? product.CasesInStock + stockChange : 0;
         }
     }
 }

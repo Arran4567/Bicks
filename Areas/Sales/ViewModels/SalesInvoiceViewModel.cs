@@ -10,7 +10,7 @@ namespace Bicks.Areas.Sales.ViewModels
     {
         public int InvoiceNo { get; set; }
         public DateTime Date { get; set; }
-        public string InvoiceTo { get; set; }
+        public Client Client { get; set; }
         public string DeliverTo { get; set; }
         public List<InvoiceItem> InvoiceItems { get; set; }
         public decimal Total { get; set; }

@@ -27,7 +27,7 @@ namespace Bicks.Data.DAL
             {
                 InvoiceNo = sale.ID,
                 Date = DateTime.Now,
-                InvoiceTo = sale.Client.Name,
+                Client = sale.Client,
                 DeliverTo = sale.Client.AddressLine1,
                 InvoiceItems = sale.SaleInvoiceItems,
                 Total = total

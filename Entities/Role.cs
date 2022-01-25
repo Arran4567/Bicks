@@ -8,5 +8,6 @@ namespace Bicks.Entities
     public static class Role
     {
         public const string Superadmin = "Superadmin";
+        public const string Sales = "Sales";
     }
 }

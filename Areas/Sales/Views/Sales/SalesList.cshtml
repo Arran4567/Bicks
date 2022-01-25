@@ -120,59 +120,76 @@
                         <th>
                             @Html.DisplayNameFor(model => model.SaleDateTime)
                         </th>
-                        <th style="width: 20%" colspan="4">Options</th>
+                        <th style="width: 25%" colspan="5">Options</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ID)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Client.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SaleDateTime)
-                            </td>
-                            <td>
-                                <a asp-area="Sales" asp-controller="Sales" asp-action="EditSale" asp-route-id="@item.ID">
-                                    <i class="fa fa-pen"></i>
-                                    <p class="">Edit Sale</p>
-                                </a>
-                            </td>
-                            <td>
-                                <a onClick="showProgressBar();" asp-area="Sales" asp-controller="Sales" asp-action="GenerateInvoice" asp-route-id="@item.ID">
-                                    <i class="fa fa-money-check-alt"></i>
-                                    <p class="">Generate Invoice</p>
-                                </a>
-                            </td>
-                            <td>
-                                @{
-                                    string invoiceLocation = $"../Invoices/{item.ID.ToString("0000000")}.pdf?t={DateTime.Now.Ticks}";
-                                    string invoiceLocationCheck = $"{ViewData["RootLoc"]}/Invoices/{item.ID.ToString("0000000")}.pdf";
-                                    if (File.Exists(invoiceLocationCheck))
-                                    {
-                                        <a href="@invoiceLocation" target="_blank">
-                                            <i class="fa fa-search"></i>
-                                            <p class="">View Invoice</p>
-                                        </a>
-                                    }
-                                    else
-                                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Client.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SaleDateTime)
+                        </td>
+                        <td>
+                            <a asp-area="Sales" asp-controller="Sales" asp-action="EditSale" asp-route-id="@item.ID">
+                                <i class="fa fa-pen"></i>
+                                <p class="">Edit Sale</p>
+                            </a>
+                        </td>
+                        <td>
+                            <a onClick="showProgressBar();" asp-area="Sales" asp-controller="Sales" asp-action="GenerateInvoice" asp-route-id="@item.ID">
+                                <i class="fa fa-money-check-alt"></i>
+                                <p class="">Generate Invoice</p>
+                            </a>
+                        </td>
+                        <td>
+                            @{
+                                string invoiceLocation = $"../Invoices/{item.ID.ToString("0000000")}.pdf?t={DateTime.Now.Ticks}";
+                                string invoiceLocationCheck = $"{ViewData["RootLoc"]}/Invoices/{item.ID.ToString("0000000")}.pdf";
+                                if (File.Exists(invoiceLocationCheck))
+                                {
+                                    <a href="@invoiceLocation" target="_blank">
                                         <i class="fa fa-search"></i>
                                         <p class="">View Invoice</p>
-                                    }
+                                    </a>
                                 }
-                            </td>
-                            <td>
-                                <a asp-area="Sales" asp-controller="Sales" asp-action="DeleteSale" asp-route-id="@item.ID">
-                                    <i class="fa fa-trash"></i>
-                                    <p class="">Delete Sale</p>
-                                </a>
-                            </td>
-                        </tr>
+                                else
+                                {
+                                    <i class="fa fa-search"></i>
+                                    <p class="">View Invoice</p>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                if (File.Exists(invoiceLocationCheck))
+                                {
+                                    <a asp-area="Sales" asp-controller="Sales" asp-action="SendInvoice" asp-route-id="@item.ID">
+                                        <i class="fa fa-envelope"></i>
+                                        <p class="">Send Invoice</p>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-envelope"></i>
+                                    <p class="">Send Invoice</p>
+                                }
+
+                            }
+                        </td>
+                        <td>
+                            <a asp-area="Sales" asp-controller="Sales" asp-action="DeleteSale" asp-route-id="@item.ID">
+                                <i class="fa fa-trash"></i>
+                                <p class="">Delete Sale</p>
+                            </a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

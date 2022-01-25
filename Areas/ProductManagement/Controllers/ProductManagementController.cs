@@ -57,9 +57,9 @@ namespace Bicks.Areas.ProductManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateProduct(ProductViewModel editProductViewModel)
-        { 
-            Category category = _workUnit.CategoryRepository.GetByID(editProductViewModel.Product.SubCategory.Category.ID);
-            editProductViewModel.Product.SubCategory.Category = category;
+        {
+            SubCategory subCategory = _workUnit.SubCategoryRepository.GetByID(editProductViewModel.Product.SubCategory.ID);
+            editProductViewModel.Product.SubCategory = subCategory;
             _workUnit.ProductRepository.Insert(editProductViewModel.Product);
             _workUnit.Save();
             return RedirectToAction("ProductList");
@@ -129,7 +129,7 @@ namespace Bicks.Areas.ProductManagement.Controllers
         [HttpGet]
         public IActionResult EditCategory(int id)
         {
-            if (_workUnit.SubCategoryRepository.GetByID(id) != null)
+            if (_workUnit.CategoryRepository.GetByID(id) != null)
             {
                 return View(_workUnit.CategoryRepository.GetByID(id));
             }

@@ -19,6 +19,7 @@ namespace Bicks.Models
         public string Name { get; set; }
         [Required]
         [Display(Name = "Cases in Stock")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please ensure stock doesn't fall below 0.")]
         public int CasesInStock { get; set; }
         [Required]
         [Display(Name = "Price Per Kg")]

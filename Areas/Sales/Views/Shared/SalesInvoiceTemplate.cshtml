@@ -95,7 +95,7 @@
                                 <img src="~/img/Invoice-Logo.png" style="height: 100px" />
                             </td>
                             <td>
-                                Invoice #: @Model.InvoiceNo.ToString("000000")<br />
+                                Invoice No.: #@Model.InvoiceNo.ToString("000000")<br />
                                 Date: @Model.Date.ToString("dd/MM/yy")<br />
                             </td>
                         </tr>
@@ -108,6 +108,7 @@
                     <table>
                         <tr>
                             <td>
+                                <br />
                                 31 Abenbury Way<br />
                                 Wrexham<br />
                                 LL13 9UZ<br />
@@ -117,7 +118,11 @@
 
                             <td>
                                 Invoice To:<br />
-                                @Model.InvoiceTo
+                                @Model.Client.Name<br />
+                                @Model.Client.AddressLine1<br />
+                                @Model.Client.Postcode<br />
+                                Tel: @Model.Client.ContactPhoneNumber<br />
+                                Email:  @Model.Client.ContactEmail
                             </td>
                         </tr>
                     </table>
