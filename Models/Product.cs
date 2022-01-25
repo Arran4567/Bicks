@@ -18,10 +18,14 @@ namespace Bicks.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
         [Required]
+        [Display(Name = "Cases in Stock")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please ensure stock doesn't fall below 0.")]
+        public int CasesInStock { get; set; }
+        [Required]
         [Display(Name = "Price Per Kg")]
         [Column(TypeName = "Decimal(18, 2)")]
         public decimal PricePerKg { get; set; }
-        [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
+        [ForeignKey("SubCategoryId")]
+        public virtual SubCategory SubCategory { get; set; }
     }
 }

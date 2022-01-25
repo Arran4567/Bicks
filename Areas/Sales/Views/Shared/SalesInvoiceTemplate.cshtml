@@ -108,6 +108,7 @@
                     <table>
                         <tr>
                             <td>
+                                <br />
                                 31 Abenbury Way<br />
                                 Wrexham<br />
                                 LL13 9UZ<br />
@@ -117,7 +118,11 @@
 
                             <td>
                                 Invoice To:<br />
-                                @Model.InvoiceTo
+                                @Model.Client.Name<br />
+                                @Model.Client.AddressLine1<br />
+                                @Model.Client.Postcode<br />
+                                Tel: @Model.Client.ContactPhoneNumber<br />
+                                Email:  @Model.Client.ContactEmail
                             </td>
                         </tr>
                     </table>
@@ -128,9 +133,9 @@
                 List<Category> categories = new List<Category>();
                 foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
                 {
-                    if (!categories.Any(item => item.ID == invoiceItem.Product.Category.ID))
+                    if (!categories.Any(item => item.ID == invoiceItem.Product.SubCategory.Category.ID))
                     {
-                        categories.Add(invoiceItem.Product.Category);
+                        categories.Add(invoiceItem.Product.SubCategory.Category);
                     }
                 }
                 <tr class="heading">
@@ -153,7 +158,7 @@
                     </tr>
                     @foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
                     {
-                        if (invoiceItem.Product.Category.ID == category.ID)
+                        if (invoiceItem.Product.SubCategory.Category.ID == category.ID)
                         {
                             catergoryItems.Add(invoiceItem);
                             subtotal += invoiceItem.Product.PricePerKg * invoiceItem.TotalWeight;
@@ -231,7 +236,11 @@
                     </table>
                 </td>
             </tr>
-
+            <tr>
+                <td colspan="5">
+                    This is a terms and conditions paragraph
+                </td>
+            </tr>
         </table>
     </div>
 </body>

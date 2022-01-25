@@ -71,7 +71,7 @@ namespace Bicks.Services
                 {
                     if (file.Length > 0)
                     {
-                        builder.Attachments.Add(file.PhysicalPath);
+                        builder.Attachments.Add(file);
                     }
                 }
             }

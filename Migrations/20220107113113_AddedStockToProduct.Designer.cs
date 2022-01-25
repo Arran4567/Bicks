@@ -4,14 +4,16 @@ using Bicks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bicks.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220107113113_AddedStockToProduct")]
+    partial class AddedStockToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,8 +80,8 @@ namespace Bicks.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("NumCases")
-                        .HasColumnType("int");
+                    b.Property<decimal>("NumCases")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ProductId")
                         .IsRequired()
@@ -110,6 +112,9 @@ namespace Bicks.Migrations
                     b.Property<int>("CasesInStock")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -117,12 +122,9 @@ namespace Bicks.Migrations
                     b.Property<decimal>("PricePerKg")
                         .HasColumnType("Decimal(18, 2)");
 
-                    b.Property<int?>("SubCategoryId")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("SubCategoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -145,26 +147,6 @@ namespace Bicks.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("Bicks.Models.SubCategory", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("SubCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -391,9 +373,9 @@ namespace Bicks.Migrations
 
             modelBuilder.Entity("Bicks.Models.Product", b =>
                 {
-                    b.HasOne("Bicks.Models.SubCategory", "SubCategory")
+                    b.HasOne("Bicks.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("SubCategoryId");
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("Bicks.Models.Sale", b =>
@@ -401,13 +383,6 @@ namespace Bicks.Migrations
                     b.HasOne("Bicks.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId");
-                });
-
-            modelBuilder.Entity("Bicks.Models.SubCategory", b =>
-                {
-                    b.HasOne("Bicks.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

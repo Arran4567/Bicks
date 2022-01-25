@@ -81,6 +81,42 @@ namespace Bicks.Areas.Settings.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Settings/UserAccounts/EditUserRole/{id}")]
+        public async Task<IActionResult> EditUserRole(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                IdentityRole role = await _roleManager.FindByIdAsync(id);
+                EditUserRoleViewModel editUserRoleViewModel = new EditUserRoleViewModel
+                {
+                    ID = role.Id,
+                    RoleName = role.Name
+                };
+                return View(editUserRoleViewModel);
+            }
+
+            return RedirectToAction("UserAccounts");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Settings/UserAccounts/EditUserRole/{id}")]
+        public async Task<IActionResult> EditUserRole(EditUserRoleViewModel editUserRoleViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editUserRoleViewModel);
+            }
+            else
+            {
+                IdentityRole role = await _roleManager.FindByIdAsync(editUserRoleViewModel.ID);
+                role.Name = editUserRoleViewModel.RoleName;
+                await _roleManager.UpdateAsync(role);
+                return RedirectToAction("UserAccounts");
+            }
+        }
+
         [Route("Settings/UserAccounts/DeleteUserRole/{id}")]
         public async Task<IActionResult> DeleteUserRole(string id)
         {
@@ -129,7 +165,7 @@ namespace Bicks.Areas.Settings.Controllers
                         await _userManager.AddToRoleAsync(newUser, role.Name);
                     }
 
-                    return RedirectToAction("EditUserAccount", new { id = newUser.Id });
+                    return RedirectToAction("UserAccounts", new { id = newUser.Id });
                 }
                 else
                 {
@@ -144,6 +180,7 @@ namespace Bicks.Areas.Settings.Controllers
             }
         }
 
+        [HttpGet]
         [Route("Settings/UserAccounts/EditUserAccount/{id}")]
         public IActionResult EditUserAccount(string id)
         {
@@ -202,8 +239,6 @@ namespace Bicks.Areas.Settings.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, role);
                 }
-                
-                await _signInManager.SignInAsync(user, false, null);
 
                 return RedirectToAction("UserAccounts");
             }

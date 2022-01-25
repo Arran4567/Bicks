@@ -15,7 +15,7 @@ namespace Bicks.Areas.Sales.Data.DAL
         private SalesRepository saleRepository;
         private GenericRepository<Client> clientRepository;
         private GenericRepository<InvoiceItem> invoiceItemRepository;
-        private GenericRepository<Product> productRepository;
+        private ProductRepository productRepository;
 
         public SalesWorkUnit(ApplicationDbContext context)
         {
@@ -58,13 +58,13 @@ namespace Bicks.Areas.Sales.Data.DAL
             }
         }
 
-        public GenericRepository<Product> ProductRepository
+        public ProductRepository ProductRepository
         {
             get
             {
                 if (productRepository == null)
                 {
-                    productRepository = new GenericRepository<Product>(_context);
+                    productRepository = new ProductRepository(_context);
                 }
                 return productRepository;
             }
@@ -108,7 +108,7 @@ namespace Bicks.Areas.Sales.Data.DAL
             List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
             foreach (InvoiceItem invoiceItem in saleViewModel.InvoiceItems)
             {
-                if (invoiceItem.NumCases != decimal.Zero || invoiceItem.TotalWeight != decimal.Zero)
+                if (invoiceItem.NumCases != 0 || invoiceItem.TotalWeight != decimal.Zero)
                     invoiceItems.Add(new InvoiceItem
                     {
                         Product = ProductRepository.GetByID(invoiceItem.Product.ID),

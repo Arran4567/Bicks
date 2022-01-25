@@ -11,21 +11,22 @@ namespace Bicks.Areas.ProductManagement.Data.DAL
     public class ProductManagementWorkUnit : IDisposable
     {
         private ApplicationDbContext _context;
-        private GenericRepository<Product> productRepository;
+        private ProductRepository productRepository;
         private GenericRepository<Category> categoryRepository;
+        private GenericRepository<SubCategory> subCategoryRepository;
 
         public ProductManagementWorkUnit(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public GenericRepository<Product> ProductRepository
+        public ProductRepository ProductRepository
         {
             get
             {
                 if (productRepository == null)
                 {
-                    productRepository = new GenericRepository<Product>(_context);
+                    productRepository = new ProductRepository(_context);
                 }
                 return productRepository;
             }
@@ -40,6 +41,18 @@ namespace Bicks.Areas.ProductManagement.Data.DAL
                     categoryRepository = new GenericRepository<Category>(_context);
                 }
                 return categoryRepository;
+            }
+        }
+
+        public GenericRepository<SubCategory> SubCategoryRepository
+        {
+            get
+            {
+                if (subCategoryRepository == null)
+                {
+                    subCategoryRepository = new GenericRepository<SubCategory>(_context);
+                }
+                return subCategoryRepository;
             }
         }
 

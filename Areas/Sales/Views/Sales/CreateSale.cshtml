@@ -83,11 +83,16 @@
     </div>
     @{
         List<Category> categories = new List<Category>();
+        List<SubCategory> subCategories = new List<SubCategory>();
         foreach (InvoiceItem invoiceItem in Model.InvoiceItems)
         {
-            if (!categories.Any(item => item.ID == invoiceItem.Product.Category.ID))
+            if (!categories.Any(item => item.ID == invoiceItem.Product.SubCategory.Category.ID))
             {
-                categories.Add(invoiceItem.Product.Category);
+                categories.Add(invoiceItem.Product.SubCategory.Category);
+            }
+            if (!subCategories.Any(item => item.ID == invoiceItem.Product.SubCategory.ID))
+            {
+                subCategories.Add(invoiceItem.Product.SubCategory);
             }
         }
     }
@@ -100,19 +105,36 @@
                         <section class="data-section">
                             <button style="border: none;" class="accordion section-header">@category.Name</button>
                             <div class="panel section-body">
-                                <div class="row">
-                                    @for (int i = 0; i < Model.InvoiceItems.Count; i++)
+                                @foreach (SubCategory subCategory in subCategories)
+                                {
+                                    if (subCategory.Category == category)
                                     {
-                                        if (Model.InvoiceItems[i].Product.Category.ID == category.ID)
-                                        {
-                                            <div class="col-md-3 mb-2">
-                                                <div class="card">
-                                                    @Html.EditorFor(m => m.InvoiceItems[i])
+                                        <div class="row">
+                                            <div class="col-12 col-xl-12">
+                                                <div>
+                                                    <section class="data-section">
+                                                        <button class="accordion section-header">@subCategory.Name</button>
+                                                        <div class="panel section-body">
+                                                            <div class="row">
+                                                                @for (int i = 0; i < Model.InvoiceItems.Count; i++)
+                                                                {
+                                                                    if (Model.InvoiceItems[i].Product.SubCategory.ID == subCategory.ID)
+                                                                    {
+                                                                        <div class="col-md-3 mb-2">
+                                                                            <div class="card">
+                                                                                @Html.EditorFor(m => m.InvoiceItems[i])
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </section>
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
                                     }
-                                </div>
+                                }
                             </div>
                         </section>
                     </div>

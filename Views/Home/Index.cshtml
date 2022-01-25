@@ -2,7 +2,125 @@
     ViewData["Title"] = "Home Page"; }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <button onclick="location.href='@Url.Action("SendExampleEmailButton", "Home")'">Send Example Email</button>
+    <h1 class="display-4">Welcome to Bicks!</h1>
+</div>
+<h1>Quick Access</h1>
+<div class="card-grid">
+    <a class="card" asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="ClientList">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img class="img-fluid rounded-start fa fa-user" alt="" />
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h5 class="card-title">Client List</h5>
+                    <p class="card-text">List of all Clients</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="Sales" asp-controller="Sales" asp-action="SalesList">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Sales List</h5>
+                    <p class="card-text">List of all Sales</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="CategoryList">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Category List</h5>
+                    <p class="card-text">List of all category</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="" asp-controller="" asp-action="">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">This is a description</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="" asp-controller="" asp-action="">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">This is a description</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="" asp-controller="" asp-action="">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">This is a description</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="" asp-controller="" asp-action="">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">This is a description</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="" asp-controller="" asp-action="">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">This is a description</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <a class="card" asp-area="" asp-controller="" asp-action="">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">This is a description</p>
+                </div>
+            </div>
+        </div>
+    </a>
 </div>

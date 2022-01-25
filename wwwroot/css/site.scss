@@ -124,6 +124,14 @@ h1 {
             color: $black;
         }
     }
+
+    svg {
+        margin-top: 3px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 130px;
+        display: block;
+    }
 }
 
 .table-small-cell {

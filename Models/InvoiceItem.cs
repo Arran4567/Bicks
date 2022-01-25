@@ -19,7 +19,7 @@ namespace Bicks.Models
         public virtual Product Product { get; set; }
         [Required]
         [Display(Name = "Number of cases")]
-        public decimal NumCases { get; set; }
+        public int NumCases { get; set; }
         [Required]
         [Display(Name = "Total Weight")]
         public decimal TotalWeight { get; set; }

@@ -13,17 +13,19 @@
     </li>
 }
 
-<script>
-    $(document).ready(function () {
-        $('#product-table').DataTable({
-            "aaSorting": [],
-            columnDefs: [{
-                orderable: false,
-                targets: [3, 4]
-            }]
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $('#product-table').DataTable({
+                "aaSorting": [],
+                columnDefs: [{
+                    orderable: false,
+                    targets: [3, 4]
+                }]
+            });
         });
-    });
-</script>
+    </script>
+}
 
 <section class="data-section">
     <h2 class="section-header">Clients</h2>
@@ -43,7 +45,7 @@
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Category)
+                            @Html.DisplayNameFor(model => model.SubCategory)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.PricePerKg)
@@ -59,7 +61,7 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Category.Name)
+                                @Html.DisplayFor(modelItem => item.SubCategory.Name)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.PricePerKg)
