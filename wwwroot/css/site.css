@@ -7849,12 +7849,14 @@ textarea.form-control-lg {
   color: #fff;
   font-size: 15pt;
   text-align: center; }
+  .navbar-item img {
+    vertical-align: unset;
+    margin-bottom: -2px;
+    height: 15pt;
+    width: 15pt; }
 
 .btn {
   background-color: #CEA83A; }
-
-.navbar-item:hover, .navbar-item:focus {
-  color: #000; }
 
 #outer-content-wrapper {
   width: 100%;

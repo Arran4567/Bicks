@@ -9,5 +9,6 @@ namespace Bicks.Entities
     {
         public const string Superadmin = "Superadmin";
         public const string Sales = "Sales";
+        public const string ClientManager = "Client Manager";
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Bicks.Areas.ClientManagement.Data.DAL;
+using Bicks.Entities;
 using Bicks.Models;
 using Hangfire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 namespace Bicks.Areas.ClientManagement.Controllers
 {
     [Area("ClientManagement")]
+    [Authorize(Roles = Role.ClientManager)]
     public class ClientManagementController : Controller
     {
         private readonly ILogger<ClientManagementController> _logger;

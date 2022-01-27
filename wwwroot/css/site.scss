@@ -32,14 +32,17 @@
     color: $white;
     font-size: 15pt;
     text-align: center;
+
+    img {
+        vertical-align: unset;
+        margin-bottom: -2px;
+        height: 15pt;
+        width: 15pt;
+    }
 }
 
 .btn {
     background-color: $primary;
-}
-
-.navbar-item:hover, .navbar-item:focus {
-    color: $black;
 }
 
 #outer-content-wrapper {
@@ -66,10 +69,11 @@
         @extend .nav-link;
 
         svg {
-                font-size: 21px;
-                display: block;
-                margin: auto;
-            }
+            font-size: 21px;
+            display: block;
+            margin: auto;
+        }
+
         p {
             text-align: center;
             margin: 0;
@@ -83,7 +87,7 @@
     }
 }
 
-.bg-primary{
+.bg-primary {
     background-color: $primary;
 }
 
@@ -168,4 +172,3 @@ h1 {
     justify-content: space-around;
     grid-gap: 20px;
 }
-
