@@ -10,6 +10,6 @@ namespace Bicks.Areas.Sales.ViewModels
     {
         public Sale Sale{ get; set; }
         public virtual List<InvoiceItem> InvoiceItems { get; set; }
-        public virtual List<Client> ClientList { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

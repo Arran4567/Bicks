@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bicks.Models
 {
-    public class InvoiceItem
+    public class ClientProductOption
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,11 +18,15 @@ namespace Bicks.Models
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
         [Required]
-        [Display(Name = "Number of cases")]
-        public int NumCases { get; set; }
+        [Display(Name = "Client")]
+        [ForeignKey("ClientId")]
+        public virtual Client Client { get; set; }
         [Required]
-        [Display(Name = "Total Weight")]
+        [Display(Name = "Price Per Kg")]
         [Column(TypeName = "Decimal(18, 2)")]
-        public decimal TotalWeight { get; set; }
+        public decimal PricePerKgOverride { get; set; }
+        [Required]
+        [Display(Name = "Number of Times Purchased")]
+        public int NumTimesPurchased { get; set; }
     }
 }

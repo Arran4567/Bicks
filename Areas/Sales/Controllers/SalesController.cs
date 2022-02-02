@@ -56,14 +56,16 @@ namespace Bicks.Areas.Sales.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateSale()
+        public IActionResult CreateSale(int clientId)
         {
             SaleViewModel saleViewModel = new SaleViewModel
             {
-                ClientList = _workUnit.ClientRepository.Get(orderBy: cr => cr.OrderBy(c => c.Name)).ToList(),
+                Client = _workUnit.ClientRepository.GetByID(clientId),
                 InvoiceItems = new List<InvoiceItem>()
             };
-            List<Product> products = _workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.ID)).ToList();
+            List<InvoiceItem> recommendedItems = _workUnit.GetRecommendedItems(clientId);
+            saleViewModel.InvoiceItems = recommendedItems;
+            List<Product> products = _workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Name)).ToList();
             foreach (Product product in products)
             {
                 saleViewModel.InvoiceItems.Add(new InvoiceItem
@@ -89,7 +91,7 @@ namespace Bicks.Areas.Sales.Controllers
             return View(_workUnit.GetViewModelFromSale(sale));
         }
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult EditSale(SaleViewModel saleViewModel)
         {
             _workUnit.SaleRepository.Update(_workUnit.UpdateExistingSaleFromViewModel(saleViewModel));
@@ -123,7 +125,7 @@ namespace Bicks.Areas.Sales.Controllers
             return RedirectToAction("SalesList");
         }
 
-        [HttpGet]
+        [HttpDelete("{id}")]
         public IActionResult DeleteSale(int id)
         {
             Sale sale = _workUnit.SaleRepository.GetByID(id);

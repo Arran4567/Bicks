@@ -15,6 +15,7 @@ namespace Bicks.Areas.Sales.Data.DAL
         private SalesRepository saleRepository;
         private GenericRepository<Client> clientRepository;
         private GenericRepository<InvoiceItem> invoiceItemRepository;
+        private GenericRepository<ClientProductOption> clientProductOptionRepository;
         private ProductRepository productRepository;
 
         public SalesWorkUnit(ApplicationDbContext context)
@@ -67,6 +68,17 @@ namespace Bicks.Areas.Sales.Data.DAL
                     productRepository = new ProductRepository(_context);
                 }
                 return productRepository;
+            }
+        }
+        public GenericRepository<ClientProductOption> ClientProductOptionRepository
+        {
+            get
+            {
+                if (clientProductOptionRepository == null)
+                {
+                    clientProductOptionRepository = new GenericRepository<ClientProductOption>(_context);
+                }
+                return clientProductOptionRepository;
             }
         }
 
@@ -152,7 +164,7 @@ namespace Bicks.Areas.Sales.Data.DAL
         {
             List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
             List<Product> products = ProductRepository.Get(orderBy: pr => pr.OrderBy(c => c.ID)).ToList();
-            List<Client> clients = ClientRepository.Get(orderBy: cr => cr.OrderBy(c => c.Name)).ToList();
+            Client client = ClientRepository.GetByID(sale.Client.ID);
             foreach (Product product in products)
             {
                 InvoiceItem invoiceItem = new InvoiceItem
@@ -172,9 +184,39 @@ namespace Bicks.Areas.Sales.Data.DAL
             {
                 Sale = sale,
                 InvoiceItems = invoiceItems,
-                ClientList = clients,
+                Client = client,
             };
             return salesViewModel;
+        }
+
+        public List<InvoiceItem> GetRecommendedItems(int id)
+        {
+            List<ClientProductOption> clientProductOptions = ClientProductOptionRepository.
+                Get(orderBy: cpor => cpor.OrderByDescending(c => c.NumTimesPurchased)).
+                Where(cpo => cpo.Client.ID == id).
+                Take(12).ToList();
+            List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+            foreach(ClientProductOption cpo in clientProductOptions)
+            {
+                InvoiceItem invoiceItem = new InvoiceItem
+                {
+                    Product = new Product
+                    {
+                        ID = cpo.Product.ID,
+                        Name = cpo.Product.Name,
+                        CasesInStock = cpo.Product.CasesInStock,
+                        PricePerKg = cpo.Product.PricePerKg,
+                        SubCategory = new SubCategory
+                        {
+                            ID = cpo.Product.SubCategory.ID,
+                            Name = "Recommended",
+                            Category = null,
+                        }
+                    }
+                };
+                invoiceItems.Append(invoiceItem);
+            }
+            return invoiceItems;
         }
 
         //Example
