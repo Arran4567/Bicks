@@ -56,24 +56,44 @@ namespace Bicks.Areas.Sales.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateSale(int clientId)
+        public IActionResult CreateSale(int id)
         {
-            SaleViewModel saleViewModel = new SaleViewModel
+            if (_workUnit.isClient(id))
             {
-                Client = _workUnit.ClientRepository.GetByID(clientId),
-                InvoiceItems = new List<InvoiceItem>()
-            };
-            List<InvoiceItem> recommendedItems = _workUnit.GetRecommendedItems(clientId);
-            saleViewModel.InvoiceItems = recommendedItems;
-            List<Product> products = _workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Name)).ToList();
-            foreach (Product product in products)
-            {
-                saleViewModel.InvoiceItems.Add(new InvoiceItem
+                SaleViewModel saleViewModel = new SaleViewModel
                 {
-                    Product = product
-                });
+                    Client = _workUnit.ClientRepository.GetByID(id),
+                    InvoiceItems = new List<InvoiceItem>()
+                };
+                List<InvoiceItem> recommendedItems = _workUnit.GetRecommendedItems(id);
+                saleViewModel.RecommendedItems = recommendedItems;
+                List<Product> products = _workUnit.ProductRepository.Get(orderBy: pr => pr.OrderBy(p => p.Name)).ToList();
+                foreach (Product product in products)
+                {
+                    if (recommendedItems.Count > 0)
+                    {
+                        foreach (InvoiceItem recommendedItem in recommendedItems)
+                        {
+                            if (!recommendedItem.Product.Equals(product))
+                            {
+                                saleViewModel.InvoiceItems.Add(new InvoiceItem
+                                {
+                                    Product = product
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        saleViewModel.InvoiceItems.Add(new InvoiceItem
+                        {
+                            Product = product
+                        });
+                    }
+                }
+                return View(saleViewModel);
             }
-            return View(saleViewModel);
+            return RedirectToAction("SalesList");
         }
 
         [HttpPost]

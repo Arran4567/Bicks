@@ -17,7 +17,7 @@
     }
 
         .active, .accordion:hover {
-            background-color: #ccc; 
+            background-color: #ccc;
         }
 
     .panel {
@@ -88,6 +88,31 @@
         }
     }
     @{
+        if (Model.RecommendedItems.Count > 0)
+        {
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div>
+                        <section class="data-section">
+                            <button style="border: none;" class="accordion section-header">Recommended</button>
+                            <div class="panel section-body">
+                                <div class="row">
+                                    @for (int i = 0; i < Model.RecommendedItems.Count; i++)
+                                    {
+                                        <div class="col-md-3 mb-2">
+                                            <div class="card">
+                                                @Html.EditorFor(m => m.RecommendedItems[i])
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        }
         foreach (Category category in categories)
         {
             <div class="row">

@@ -115,6 +115,16 @@ namespace Bicks.Areas.Sales.Data.DAL
             GC.SuppressFinalize(this);
         }
 
+        public bool isClient(int id)
+        {
+            bool isClient = false;
+            if(ClientRepository.GetByID(id) != null)
+            {
+                isClient = true;
+            }
+            return isClient;
+        }
+
         public Sale CreateNewSaleFromViewModel(SaleViewModel saleViewModel)
         {
             List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
@@ -193,28 +203,16 @@ namespace Bicks.Areas.Sales.Data.DAL
         {
             List<ClientProductOption> clientProductOptions = ClientProductOptionRepository.
                 Get(orderBy: cpor => cpor.OrderByDescending(c => c.NumTimesPurchased)).
-                Where(cpo => cpo.Client.ID == id).
+                Where(cpo => cpo.Client.ID == id && cpo.NumTimesPurchased > 0).
                 Take(12).ToList();
             List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
             foreach(ClientProductOption cpo in clientProductOptions)
             {
                 InvoiceItem invoiceItem = new InvoiceItem
                 {
-                    Product = new Product
-                    {
-                        ID = cpo.Product.ID,
-                        Name = cpo.Product.Name,
-                        CasesInStock = cpo.Product.CasesInStock,
-                        PricePerKg = cpo.Product.PricePerKg,
-                        SubCategory = new SubCategory
-                        {
-                            ID = cpo.Product.SubCategory.ID,
-                            Name = "Recommended",
-                            Category = null,
-                        }
-                    }
+                    Product = cpo.Product
                 };
-                invoiceItems.Append(invoiceItem);
+                invoiceItems.Add(invoiceItem);
             }
             return invoiceItems;
         }

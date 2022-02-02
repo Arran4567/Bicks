@@ -24,7 +24,9 @@ namespace Bicks.Models
         [Required]
         [Display(Name = "Price Per Kg")]
         [Column(TypeName = "Decimal(18, 2)")]
-        public decimal PricePerKgOverride { get; set; }
+#nullable enable
+        public decimal? PricePerKgOverride { get; set; }
+#nullable disable
         [Required]
         [Display(Name = "Number of Times Purchased")]
         public int NumTimesPurchased { get; set; }
