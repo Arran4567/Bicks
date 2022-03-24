@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Enums
+@{
     ViewData["Title"] = "Product List";
     ViewData["Heading"] = "Products";
 }
@@ -13,7 +14,7 @@
     </li>
 }
 
-@section Scripts{ 
+@section Scripts{
     <script>
         $(document).ready(function () {
             $('#product-table').DataTable({
@@ -48,7 +49,7 @@
                             @Html.DisplayNameFor(model => model.SubCategory)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.PricePerKg)
+                            @Html.DisplayNameFor(model => model.PricingMethod)
                         </th>
                         <th style="width: 20%" colspan="2">Options</th>
                     </tr>
@@ -64,7 +65,19 @@
                                 @Html.DisplayFor(modelItem => item.SubCategory.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.PricePerKg)
+                                @{
+                                    string pricingMethod = "";
+                                    switch (item.PricingMethod)
+                                    {
+                                        case 0:
+                                            pricingMethod = "Price Per Kg";
+                                            break;
+                                        case 1:
+                                            pricingMethod = "Price Per Unit";
+                                            break;
+                                    }
+                                }
+                                @pricingMethod
                             </td>
                             <td>
                                 <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="EditProduct" asp-route-id="@item.ID">

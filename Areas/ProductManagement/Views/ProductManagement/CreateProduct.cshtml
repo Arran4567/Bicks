@@ -1,4 +1,5 @@
 ﻿@using Bicks.Models
+@using Enums
 @model Bicks.Areas.ProductManagement.ViewModels.ProductViewModel
 
 @{
@@ -23,6 +24,16 @@
 
 @section Scripts {
     <script type="text/javascript">
+        $("#Product_PricingMethod").prop("checked", true);
+
+        $(document).ready(function () {
+            $("input[name$='Product.PricingMethod']").click(function () {
+                var test = $(this).val();
+                $("div.desc").hide();
+                $("#PM_" + test).show();
+            });
+        });
+
         function submitForm() {
             $('#create-product-form').submit();
         }
@@ -79,9 +90,21 @@
                 <span asp-validation-for="Product.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <span asp-validation-for="Product.PricingMethod" class="text-danger"></span>
+                <label class="control-label">Price Per Kg</label>
+                @Html.RadioButtonFor(m => m.Product.PricingMethod, ((int)PricingMethod.PricePerKg), new { @checked="checked" })
+                <label class="control-label">Price Per Unit</label>
+                @Html.RadioButtonFor(m => m.Product.PricingMethod, ((int)PricingMethod.PricePerUnit))
+            </div>
+            <div id="PM_@((int)PricingMethod.PricePerKg)" class="desc form-group">
                 <label asp-for="Product.PricePerKg" class="control-label"></label>
                 <input asp-for="Product.PricePerKg" class="form-control" />
                 <span asp-validation-for="Product.PricePerKg" class="text-danger"></span>
+            </div>
+            <div id="PM_@((int)PricingMethod.PricePerUnit)" class="desc form-group" style="display: none;">
+                <label asp-for="Product.PricePerUnit" class="control-label"></label>
+                <input asp-for="Product.PricePerUnit" class="form-control" />
+                <span asp-validation-for="Product.PricePerUnit" class="text-danger"></span>
             </div>
             @if (Model.SubCategories.Count == 0)
             {

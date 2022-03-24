@@ -24,6 +24,8 @@
     <Compile Remove="Migrations\20220201105707_clientProductOptionsCreated.Designer.cs" />
     <Compile Remove="Migrations\20220202134404_nullablePriceOverride.cs" />
     <Compile Remove="Migrations\20220202134404_nullablePriceOverride.Designer.cs" />
+    <Compile Remove="Migrations\20220316223853_ClientGroupImplementation.cs" />
+    <Compile Remove="Migrations\20220316223853_ClientGroupImplementation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -22,9 +22,16 @@ namespace Bicks.Models
         [Range(0, int.MaxValue, ErrorMessage = "Please ensure stock doesn't fall below 0.")]
         public int CasesInStock { get; set; }
         [Required]
+        [Display(Name = "Method of Pricing")]
+        public int PricingMethod { get; set; }
+        [Required]
         [Display(Name = "Price Per Kg")]
         [Column(TypeName = "Decimal(18, 2)")]
         public decimal PricePerKg { get; set; }
+        [Required]
+        [Display(Name = "Price Per Unit")]
+        [Column(TypeName = "Decimal(18, 2)")]
+        public decimal PricePerUnit { get; set; }
         [ForeignKey("SubCategoryId")]
         public virtual SubCategory SubCategory { get; set; }
     }

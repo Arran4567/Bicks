@@ -13,9 +13,9 @@ namespace Bicks.Areas.Sales.Data.DAL
     {
         private ApplicationDbContext _context;
         private SalesRepository saleRepository;
-        private GenericRepository<Client> clientRepository;
+        private ClientRepository clientRepository;
         private GenericRepository<InvoiceItem> invoiceItemRepository;
-        private GenericRepository<ClientProductOption> clientProductOptionRepository;
+        private GenericRepository<ProductOption> productOptionRepository;
         private ProductRepository productRepository;
 
         public SalesWorkUnit(ApplicationDbContext context)
@@ -35,13 +35,13 @@ namespace Bicks.Areas.Sales.Data.DAL
             }
         }
 
-        public GenericRepository<Client> ClientRepository
+        public ClientRepository ClientRepository
         {
             get
             {
                 if (clientRepository == null)
                 {
-                    clientRepository = new GenericRepository<Client>(_context);
+                    clientRepository = new ClientRepository(_context);
                 }
                 return clientRepository;
             }
@@ -70,15 +70,15 @@ namespace Bicks.Areas.Sales.Data.DAL
                 return productRepository;
             }
         }
-        public GenericRepository<ClientProductOption> ClientProductOptionRepository
+        public GenericRepository<ProductOption> ProductOptionRepository
         {
             get
             {
-                if (clientProductOptionRepository == null)
+                if (productOptionRepository == null)
                 {
-                    clientProductOptionRepository = new GenericRepository<ClientProductOption>(_context);
+                    productOptionRepository = new GenericRepository<ProductOption>(_context);
                 }
-                return clientProductOptionRepository;
+                return productOptionRepository;
             }
         }
 
@@ -142,7 +142,7 @@ namespace Bicks.Areas.Sales.Data.DAL
             {
                 SaleDateTime = DateTime.Now,
                 SaleInvoiceItems = invoiceItems,
-                Client = ClientRepository.GetByID(saleViewModel.Sale.Client.ID)
+                Client = ClientRepository.GetByID(saleViewModel.Client.ID)
             };
         }
 
@@ -201,12 +201,12 @@ namespace Bicks.Areas.Sales.Data.DAL
 
         public List<InvoiceItem> GetRecommendedItems(int id)
         {
-            List<ClientProductOption> clientProductOptions = ClientProductOptionRepository.
-                Get(orderBy: cpor => cpor.OrderByDescending(c => c.NumTimesPurchased)).
-                Where(cpo => cpo.Client.ID == id && cpo.NumTimesPurchased > 0).
+            List<ProductOption> productOptions = ClientRepository.
+                GetProductOptions(id).
+                Where(cpo => cpo.NumTimesPurchased > 0).
                 Take(12).ToList();
             List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
-            foreach(ClientProductOption cpo in clientProductOptions)
+            foreach(ProductOption cpo in productOptions)
             {
                 InvoiceItem invoiceItem = new InvoiceItem
                 {
