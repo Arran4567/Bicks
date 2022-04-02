@@ -142,7 +142,7 @@
                     <td>Product</td>
                     <td>No. of Cases</td>
                     <td>Total Weight</td>
-                    <td>Price Per Kg (£)</td>
+                    <td>Price Per Kg|Unit (£)</td>
                     <td>Price (£)</td>
                 </tr>
                 foreach (Category category in categories)
@@ -161,19 +161,52 @@
                         if (invoiceItem.Product.SubCategory.Category.ID == category.ID)
                         {
                             catergoryItems.Add(invoiceItem);
-                            subtotal += invoiceItem.Product.PricePerKg * invoiceItem.TotalWeight;
+                            @switch (invoiceItem.Product.PricingMethod)
+                            {
+                                case (int)Enums.PricingMethod.PricePerKg:
+                                    subtotal += invoiceItem.Product.PricePerKg * invoiceItem.TotalWeight;
+                                    break;
+                                case (int)Enums.PricingMethod.PricePerUnit:
+                                    subtotal += invoiceItem.Product.PricePerUnit * invoiceItem.NumCases;
+                                    break;
+                            }
                         }
                     }
                     foreach (InvoiceItem catergoryItem in catergoryItems)
                     {
-                        string price = String.Format("{0:.00}", catergoryItem.Product.PricePerKg * catergoryItem.TotalWeight);
+                        string price = "";
+                        switch (catergoryItem.Product.PricingMethod)
+                        {
+                            case (int)Enums.PricingMethod.PricePerKg:
+                                price = String.Format("{0:.00}", catergoryItem.Product.PricePerKg * catergoryItem.TotalWeight);
+                                break;
+                            case (int)Enums.PricingMethod.PricePerUnit:
+                                price = String.Format("{0:.00}", catergoryItem.Product.PricePerUnit * catergoryItem.NumCases);
+                                break;
+                        }
                         if (catergoryItem == catergoryItems.Last())
                         {
                             <tr class="item last">
                                 <td>@catergoryItem.Product.Name</td>
                                 <td>@catergoryItem.NumCases</td>
-                                <td>@catergoryItem.TotalWeight</td>
-                                <td>@catergoryItem.Product.PricePerKg</td>
+                                @switch (catergoryItem.Product.PricingMethod)
+                                {
+                                    case (int)Enums.PricingMethod.PricePerKg:
+                                        <td>@catergoryItem.TotalWeight</td>
+                                        break;
+                                    case (int)Enums.PricingMethod.PricePerUnit:
+                                        <td>N/A</td>
+                                        break;
+                                }
+                                @switch (catergoryItem.Product.PricingMethod)
+                                {
+                                    case (int)Enums.PricingMethod.PricePerKg:
+                                        <td>@catergoryItem.Product.PricePerKg</td>
+                                        break;
+                                    case (int)Enums.PricingMethod.PricePerUnit:
+                                        <td>@catergoryItem.Product.PricePerUnit</td>
+                                        break;
+                                }
                                 <td>@price</td>
                             </tr>
                         }
@@ -182,8 +215,24 @@
                             <tr class="item">
                                 <td>@catergoryItem.Product.Name</td>
                                 <td>@catergoryItem.NumCases</td>
-                                <td>@catergoryItem.TotalWeight</td>
-                                <td>@catergoryItem.Product.PricePerKg</td>
+                                @switch (catergoryItem.Product.PricingMethod)
+                                {
+                                    case (int)Enums.PricingMethod.PricePerKg:
+                                        <td>@catergoryItem.TotalWeight</td>
+                                        break;
+                                    case (int)Enums.PricingMethod.PricePerUnit:
+                                        <td>N/A</td>
+                                        break;
+                                }
+                                @switch (catergoryItem.Product.PricingMethod)
+                                {
+                                    case (int)Enums.PricingMethod.PricePerKg:
+                                        <td>@catergoryItem.Product.PricePerKg</td>
+                                        break;
+                                    case (int)Enums.PricingMethod.PricePerUnit:
+                                        <td>@catergoryItem.Product.PricePerUnit</td>
+                                        break;
+                                }
                                 <td>@price</td>
                             </tr>
                         }

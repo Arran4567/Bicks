@@ -51,7 +51,6 @@ namespace Bicks.Areas.Sales.Controllers
         [HttpGet]
         public IActionResult SalesList()
         {
-            ViewData["RootLoc"] = _hostEnvironment.WebRootPath;
             return View(_workUnit.SaleRepository.Get(orderBy: sr => sr.OrderByDescending(s => s.ID)));
         }
 
@@ -97,35 +96,17 @@ namespace Bicks.Areas.Sales.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSale(SaleViewModel saleViewModel)
+        public async Task<IActionResult> CreateSale(SaleViewModel saleViewModel)
         {
             Sale sale = _workUnit.CreateNewSaleFromViewModel(saleViewModel);
+            if(sale == null)
+            {
+                return RedirectToAction("ClientList");
+            }
             _workUnit.SaleRepository.Insert(sale);
             _workUnit.Save();
-            GeneratePackingSheet(sale);
+            await GeneratePackingSheet(sale.ID);
             return RedirectToAction("SalesList");
-        }
-
-        private async Task GeneratePackingSheet(Sale sale)
-        {
-            string filename = $"{sale.ID.ToString("0000000")}.pdf";
-            string wwwRootPath = _hostEnvironment.WebRootPath;
-            string directory = System.IO.Path.Combine(wwwRootPath, "PackingSheets");
-            string filepath = System.IO.Path.Combine(directory, filename);
-
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            ControllerContext controllerContext = new ControllerContext(this.ControllerContext);
-            ViewAsPdf viewAsPdf = new ViewAsPdf("PackingSheetTemplate", sale) { FileName = filename };
-            var pdfAsByte = await viewAsPdf.BuildFile(controllerContext);
-            if (System.IO.File.Exists(filepath))
-            {
-                System.IO.File.Delete(filepath);
-            }
-            System.IO.File.WriteAllBytes(filepath, pdfAsByte);
         }
 
         [HttpGet]
@@ -136,10 +117,12 @@ namespace Bicks.Areas.Sales.Controllers
         }
 
         [HttpPut]
-        public IActionResult EditSale(SaleViewModel saleViewModel)
+        public async Task<IActionResult> EditSale(SaleViewModel saleViewModel)
         {
-            _workUnit.SaleRepository.Update(_workUnit.UpdateExistingSaleFromViewModel(saleViewModel));
+            Sale sale = _workUnit.UpdateExistingSaleFromViewModel(saleViewModel);
+            _workUnit.SaleRepository.Update(sale);
             _workUnit.Save();
+            await GeneratePackingSheet(sale.ID);
             return RedirectToAction("SalesList");
         }
 
@@ -166,7 +149,7 @@ namespace Bicks.Areas.Sales.Controllers
                 System.IO.File.Delete(filepath);
             }
             System.IO.File.WriteAllBytes(filepath, pdfAsByte);
-            return RedirectToAction("SalesList");
+            return RedirectToAction("Invoicing", sale);
         }
 
         [HttpDelete("{id}")]
@@ -176,6 +159,14 @@ namespace Bicks.Areas.Sales.Controllers
             _workUnit.DeleteSale(sale);
             _workUnit.Save();
             return RedirectToAction("SalesList");
+        }
+
+        [HttpGet]
+        public IActionResult Invoicing(int id)
+        {
+            ViewData["RootLoc"] = _hostEnvironment.WebRootPath;
+            Sale sale = _workUnit.SaleRepository.GetByID(id);
+            return View(sale);
         }
 
         [HttpGet]
@@ -197,6 +188,42 @@ namespace Bicks.Areas.Sales.Controllers
             };
             _mailService.SendEmailNow(invoiceEmail);
             return RedirectToAction("SalesList");
+        }
+
+        public IActionResult Packing(int id)
+        {
+            ViewData["RootLoc"] = _hostEnvironment.WebRootPath;
+            Sale sale = _workUnit.SaleRepository.GetByID(id);
+            return View(sale);
+        }
+
+        public async Task<IActionResult> PackingSheetRedirection(int id)
+        {
+            await GeneratePackingSheet(id);
+            return RedirectToAction("Packing");
+        } 
+
+        private async Task GeneratePackingSheet(int id)
+        {
+            Sale sale = _workUnit.SaleRepository.GetByID(id);
+            string filename = $"{sale.ID.ToString("0000000")}.pdf";
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+            string directory = System.IO.Path.Combine(wwwRootPath, "PackingSheets");
+            string filepath = System.IO.Path.Combine(directory, filename);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            ControllerContext controllerContext = new ControllerContext(this.ControllerContext);
+            ViewAsPdf viewAsPdf = new ViewAsPdf("PackingSheetTemplate", sale) { FileName = filename };
+            var pdfAsByte = await viewAsPdf.BuildFile(controllerContext);
+            if (System.IO.File.Exists(filepath))
+            {
+                System.IO.File.Delete(filepath);
+            }
+            System.IO.File.WriteAllBytes(filepath, pdfAsByte);
         }
     }
 }

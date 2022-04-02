@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Invoice #@Model.ID</title>
+    <title>Packing Sheet #@Model.ID</title>
 
     <style>
         body {
@@ -50,7 +50,6 @@
             margin: auto;
             padding: 30px;
             font-size: 16px;
-            line-height: 24px;
             font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
             color: #555;
         }
@@ -67,6 +66,10 @@
                 }
 
                 .invoice-box table tr.top td:nth-child(2) {
+                    text-align: center;
+                }
+
+                .invoice-box table tr.top td:nth-child(3) {
                     text-align: right;
                 }
 
@@ -77,12 +80,6 @@
                 .invoice-box table tr.top table td {
                     padding-bottom: 20px;
                 }
-
-                    .invoice-box table tr.top table td.title {
-                        font-size: 45px;
-                        line-height: 45px;
-                        color: #333;
-                    }
 
                 .invoice-box table tr.information table td {
                     padding-bottom: 20px;
@@ -133,13 +130,11 @@
                 <td colspan="5">
                     <table>
                         <tr>
-                            <td colspan="5">
-                                <h1 style="text-align:center;">Bicks Chicks Picking and Packing List</h1>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="title">
+                            <td>
                                 <img src="~/img/Invoice-Logo.png" style="height: 100px" />
+                            </td>
+                            <td>
+                                <h1>Bicks Chicks Picking<br/>and Packing List</h1>
                             </td>
                             <td>
                                 Invoice #: @Model.ID.ToString("0000000")<br />
@@ -154,22 +149,32 @@
             List<Category> categories = new List<Category>();
             foreach (InvoiceItem invoiceItem in Model.SaleInvoiceItems)
             {
-                if (invoiceItem.Product.PricingMethod == (int)Enums.PricingMethod.PricePerKg)
+                string title = $"{invoiceItem.Product.Name} x{invoiceItem.NumCases}";
+                switch (invoiceItem.Product.PricingMethod)
                 {
-                    string title = $"{invoiceItem.Product.Name} x{invoiceItem.NumCases}";
-                    <h3>@title</h3>
-                    <div class="grid">
-                        @for (int i = 0; i < invoiceItem.NumCases; i++)
-                        {
-                            <div class="col-20">
-                                <div class="block gutter"></div>
-                            </div>
-                        }
-                        <div class="clear"></div>
-                    </div>
-                    }
-                    }
-                    }
-            </div>
+                    case (int)Enums.PricingMethod.PricePerKg:
+                        <h3>@title</h3>
+                        <div class="grid">
+                            @for (int i = 0; i < invoiceItem.NumCases; i++)
+                            {
+                                <div class="col-20">
+                                    <div class="block gutter"></div>
+                                </div>
+                            }
+                            <div class="clear"></div>
+                        </div>
+                        break;
+                    case (int)Enums.PricingMethod.PricePerUnit:
+                        <h3>@title</h3>
+                        <div>
+                            <label for="scales">Packed?</label>
+                            <input type="checkbox">
+                        </div>
+                        break;
+                }
+            }
+        }
+        <h2 style="margin-top:40px">Initials:__________________</h2>
+    </div>
 </body>
 </html>

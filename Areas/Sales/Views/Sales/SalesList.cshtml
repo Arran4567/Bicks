@@ -1,5 +1,4 @@
-﻿@using System.IO
-@model IEnumerable<Bicks.Models.Sale>
+﻿@model IEnumerable<Bicks.Models.Sale>
 
 @{
     ViewData["Title"] = "Sale List";
@@ -8,74 +7,6 @@
 
 @section Toolbar {
 }
-
-<style>
-
-    #progressBar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(196, 196, 196, 0.8);
-        padding: 20px;
-    }
-
-    #progressBar-inner {
-        display: block;
-        position: absolute;
-        margin: 0;
-        top: 40%;
-        left: 50%;
-        -ms-transform: translate(-50%, -40%);
-        transform: translate(-50%, -50%);
-        max-width: 700px;
-        width: 100%;
-        background-color: #FFF;
-        border: solid #000 2px;
-        border-radius: 0.5rem;
-        padding: 1rem;
-    }
-
-    .progress-bar-fill.indeterminate {
-        position: relative;
-        animation: progress-indeterminate 1.5s linear infinite;
-    }
-
-    @@keyframes progress-indeterminate {
-        from {
-            left: 0%;
-            width: 20%;
-        }
-
-        to {
-            left: 80%;
-            width: 20%;
-        }
-    }
-
-    .progress-bar {
-        width: calc(100% - 6px);
-        background: #e0e0e0;
-        padding: 3px;
-        border-radius: 3px;
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
-    }
-
-    .progress-bar-fill {
-        display: block;
-        height: 5px;
-        background: #c7382e;
-        border-radius: 3px;
-        transition: width 250ms ease-in-out;
-    }
-
-    .progress-bar h3 {
-        color: #000000;
-        text-align: center;
-    }
-</style>
 
 <script>
     $(document).ready(function () {
@@ -96,14 +27,13 @@
             <table id="client-table" class="table table-striped" cellspacing="0" width="100%">
                 <thead>
                     <tr hidden>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>
@@ -115,7 +45,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.SaleDateTime)
                         </th>
-                        <th style="width: 25%" colspan="5">Options</th>
+                        <th style="width: 25%" colspan="4">Options</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,45 +68,16 @@
                             </a>
                         </td>
                         <td>
-                            <a onClick="showProgressBar();" asp-area="Sales" asp-controller="Sales" asp-action="GenerateInvoice" asp-route-id="@item.ID">
-                                <i class="fa fa-money-check-alt"></i>
-                                <p class="">Generate Invoice</p>
+                            <a asp-area="Sales" asp-controller="Sales" asp-action="Packing" asp-route-id="@item.ID">
+                                <i class="fa fa-clipboard"></i>
+                                <p class="">Packing</p>
                             </a>
                         </td>
                         <td>
-                            @{
-                                string invoiceLocation = $"../Invoices/{item.ID.ToString("0000000")}.pdf?t={DateTime.Now.Ticks}";
-                                string invoiceLocationCheck = $"{ViewData["RootLoc"]}/Invoices/{item.ID.ToString("0000000")}.pdf";
-                                if (File.Exists(invoiceLocationCheck))
-                                {
-                                    <a href="@invoiceLocation" target="_blank">
-                                        <i class="fa fa-search"></i>
-                                        <p class="">View Invoice</p>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-search"></i>
-                                    <p class="">View Invoice</p>
-                                }
-                            }
-                        </td>
-                        <td>
-                            @{
-                                if (File.Exists(invoiceLocationCheck))
-                                {
-                                    <a asp-area="Sales" asp-controller="Sales" asp-action="SendInvoice" asp-route-id="@item.ID">
-                                        <i class="fa fa-envelope"></i>
-                                        <p class="">Send Invoice</p>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-envelope"></i>
-                                    <p class="">Send Invoice</p>
-                                }
-
-                            }
+                            <a asp-area="Sales" asp-controller="Sales" asp-action="Invoicing" asp-route-id="@item.ID">
+                                <i class="fa fa-credit-card"></i>
+                                <p class="">Invoicing</p>
+                            </a>
                         </td>
                         <td>
                             <a asp-area="Sales" asp-controller="Sales" asp-action="DeleteSale" asp-route-id="@item.ID">
@@ -189,19 +90,5 @@
                 </tbody>
             </table>
         </div>
-
-        <div id="progressBar" style="display: none;">
-            <div id="progressBar-inner" class="progress-bar">
-                <div>
-                    <h3>Creating Invoice</h3>
-                    <span class="progress-bar-fill indeterminate"></span>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            function showProgressBar() {
-                $('#progressBar').show();
-            }
-        </script>
     </div>
 </section>

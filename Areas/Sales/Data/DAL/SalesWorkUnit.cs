@@ -128,6 +128,10 @@ namespace Bicks.Areas.Sales.Data.DAL
         public Sale CreateNewSaleFromViewModel(SaleViewModel saleViewModel)
         {
             List<InvoiceItem> allItems = saleViewModel.RecommendedItems != null ? saleViewModel.InvoiceItems.Concat(saleViewModel.RecommendedItems).ToList() : saleViewModel.InvoiceItems;
+            if(allItems.Count == 0)
+            {
+                return null;
+            }
             List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
             foreach (InvoiceItem invoiceItem in allItems)
             {
