@@ -99,9 +99,33 @@ namespace Bicks.Areas.Sales.Controllers
         [HttpPost]
         public IActionResult CreateSale(SaleViewModel saleViewModel)
         {
-            _workUnit.SaleRepository.Insert(_workUnit.CreateNewSaleFromViewModel(saleViewModel));
+            Sale sale = _workUnit.CreateNewSaleFromViewModel(saleViewModel);
+            _workUnit.SaleRepository.Insert(sale);
             _workUnit.Save();
+            GeneratePackingSheet(sale);
             return RedirectToAction("SalesList");
+        }
+
+        private async Task GeneratePackingSheet(Sale sale)
+        {
+            string filename = $"{sale.ID.ToString("0000000")}.pdf";
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+            string directory = System.IO.Path.Combine(wwwRootPath, "PackingSheets");
+            string filepath = System.IO.Path.Combine(directory, filename);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            ControllerContext controllerContext = new ControllerContext(this.ControllerContext);
+            ViewAsPdf viewAsPdf = new ViewAsPdf("PackingSheetTemplate", sale) { FileName = filename };
+            var pdfAsByte = await viewAsPdf.BuildFile(controllerContext);
+            if (System.IO.File.Exists(filepath))
+            {
+                System.IO.File.Delete(filepath);
+            }
+            System.IO.File.WriteAllBytes(filepath, pdfAsByte);
         }
 
         [HttpGet]

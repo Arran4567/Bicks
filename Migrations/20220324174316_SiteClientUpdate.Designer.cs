@@ -4,14 +4,16 @@ using Bicks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bicks.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220324174316_SiteClientUpdate")]
+    partial class SiteClientUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +90,8 @@ namespace Bicks.Migrations
                     b.Property<int?>("SaleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerializedItemWeights")
-                        .HasColumnName("ItemWeights")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("TotalWeight")
+                        .HasColumnType("Decimal(18, 2)");
 
                     b.HasKey("ID");
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,12 +18,35 @@ namespace Bicks.Models
         [Display(Name = "Product")]
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
-        [Required]
         [Display(Name = "Number of cases")]
         public int NumCases { get; set; }
+        [NotMapped]
+        [Display(Name = "Item Weights")]
+        [Column(TypeName = "Decimal(18, 2)")]
+        public List<decimal> ItemWeights { 
+            get 
+            {
+                if(SerializedItemWeights != null)
+                {
+                    return JsonConvert.DeserializeObject<List<decimal>>(SerializedItemWeights);
+                }
+                return new List<decimal>();
+            } 
+            set 
+            {
+                SerializedItemWeights = JsonConvert.SerializeObject(SerializedItemWeights);
+            } 
+        }
+        [Column("ItemWeights")]
+        public string SerializedItemWeights { get; set; }
         [Required]
         [Display(Name = "Total Weight")]
         [Column(TypeName = "Decimal(18, 2)")]
-        public decimal TotalWeight { get; set; }
+        public decimal TotalWeight {
+            get
+            {
+                return ItemWeights.Sum();
+            }
+        }
     }
 }

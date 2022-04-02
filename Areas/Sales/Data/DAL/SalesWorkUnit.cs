@@ -127,15 +127,15 @@ namespace Bicks.Areas.Sales.Data.DAL
 
         public Sale CreateNewSaleFromViewModel(SaleViewModel saleViewModel)
         {
+            List<InvoiceItem> allItems = saleViewModel.RecommendedItems != null ? saleViewModel.InvoiceItems.Concat(saleViewModel.RecommendedItems).ToList() : saleViewModel.InvoiceItems;
             List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
-            foreach (InvoiceItem invoiceItem in saleViewModel.InvoiceItems)
+            foreach (InvoiceItem invoiceItem in allItems)
             {
-                if (invoiceItem.NumCases != 0 || invoiceItem.TotalWeight != decimal.Zero)
+                if (invoiceItem.NumCases != 0)
                     invoiceItems.Add(new InvoiceItem
                     {
                         Product = ProductRepository.GetByID(invoiceItem.Product.ID),
-                        NumCases = invoiceItem.NumCases,
-                        TotalWeight = invoiceItem.TotalWeight
+                        NumCases = invoiceItem.NumCases
                     });
             }
             return new Sale
@@ -162,8 +162,7 @@ namespace Bicks.Areas.Sales.Data.DAL
                     invoiceItems.Add(new InvoiceItem
                     {
                         Product = ProductRepository.GetByID(invoiceItem.Product.ID),
-                        NumCases = invoiceItem.NumCases,
-                        TotalWeight = invoiceItem.TotalWeight
+                        NumCases = invoiceItem.NumCases
                     });
             }
             sale.SaleInvoiceItems = invoiceItems;

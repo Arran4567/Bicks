@@ -71,12 +71,18 @@ namespace Bicks.Areas.ClientManagement.Controllers
             return RedirectToAction("ClientList");
         }
 
+        [HttpDelete]
         public IActionResult DeleteClient(int id)
         {
             Client client= _workUnit.ClientManagementRepository.GetByID(id);
             _workUnit.ClientManagementRepository.Delete(client);
             _workUnit.Save();
             return RedirectToAction("ClientList");
+        }
+
+        public IActionResult SiteList(int id)
+        {
+            return View(_workUnit.ClientManagementRepository.GetByID(id).Sites);
         }
     }
 }

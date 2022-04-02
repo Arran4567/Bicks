@@ -1,0 +1,175 @@
+﻿@{ Layout = null; }
+@using Bicks.Models
+@using Bicks.Areas.Sales.ViewModels
+@model Sale
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Invoice #@Model.ID</title>
+
+    <style>
+        body {
+            background-color: #fff;
+            color: #222;
+            padding: 20px 0 0;
+        }
+
+        .block {
+            display: block;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .gutter {
+            margin-left: 20px;
+            margin-right: 20px;
+            border: 2px solid black;
+        }
+
+        .col-20 {
+            width: 20%;
+            float: left;
+        }
+
+        .clear {
+            clear: both;
+            display: block;
+        }
+
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+
+            .invoice-box table {
+                width: 100%;
+                line-height: inherit;
+                text-align: left;
+            }
+
+                .invoice-box table td {
+                    padding: 5px;
+                    vertical-align: top;
+                }
+
+                .invoice-box table tr.top td:nth-child(2) {
+                    text-align: right;
+                }
+
+                .invoice-box table tr.information td:nth-child(2) {
+                    text-align: right;
+                }
+
+                .invoice-box table tr.top table td {
+                    padding-bottom: 20px;
+                }
+
+                    .invoice-box table tr.top table td.title {
+                        font-size: 45px;
+                        line-height: 45px;
+                        color: #333;
+                    }
+
+                .invoice-box table tr.information table td {
+                    padding-bottom: 20px;
+                }
+
+                .invoice-box table tr.subheading td {
+                    background: #eee;
+                    border-top: 1px solid #ddd;
+                    border-bottom: 1px solid #ddd;
+                    margin-top: 20px;
+                    font-weight: bold;
+                }
+
+                .invoice-box table tr.heading td {
+                    font-weight: bold;
+                }
+
+                .invoice-box table tr.item td {
+                    border-bottom: 1px solid #eee;
+                }
+
+                .invoice-box table tr.item.last td {
+                    border-bottom: none;
+                }
+
+                .invoice-box table tr.subtotal td:nth-child(5) {
+                    border-top: 2px solid #eee;
+                }
+
+                .invoice-box table tr.total td:nth-child(5) {
+                    border-top: 2px solid #eee;
+                    font-weight: bold;
+                }
+    </style>
+</head>
+
+<!--
+    - Title - Bicks Chicks Picking and Packing List
+    - Customer Details order for - Date Provided (Default of next day)
+    - Categorised and sub-categorised individual boxes for by weight. Tickbox for by unit.
+    -
+-->
+
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="5">
+                    <table>
+                        <tr>
+                            <td colspan="5">
+                                <h1 style="text-align:center;">Bicks Chicks Picking and Packing List</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">
+                                <img src="~/img/Invoice-Logo.png" style="height: 100px" />
+                            </td>
+                            <td>
+                                Invoice #: @Model.ID.ToString("0000000")<br />
+                                Date: @Model.SaleDateTime.ToString("dd/MM/yy")<br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        @{
+            List<Category> categories = new List<Category>();
+            foreach (InvoiceItem invoiceItem in Model.SaleInvoiceItems)
+            {
+                if (invoiceItem.Product.PricingMethod == (int)Enums.PricingMethod.PricePerKg)
+                {
+                    string title = $"{invoiceItem.Product.Name} x{invoiceItem.NumCases}";
+                    <h3>@title</h3>
+                    <div class="grid">
+                        @for (int i = 0; i < invoiceItem.NumCases; i++)
+                        {
+                            <div class="col-20">
+                                <div class="block gutter"></div>
+                            </div>
+                        }
+                        <div class="clear"></div>
+                    </div>
+                    }
+                    }
+                    }
+            </div>
+</body>
+</html>

@@ -1,38 +1,38 @@
-﻿@model IEnumerable<Bicks.Models.SubCategory>
+﻿@model IEnumerable<Bicks.Models.Site>
 
 @{
-    ViewData["Title"] = "Subcategory List";
-    ViewData["Heading"] = "Subcategories";
+    ViewData["Title"] = "Site List";
 }
 
 @section Toolbar {
     <li class="nav-item toolbar-item">
-        <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="CreateSubCategory">
+        <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="CreateSite">
             <i class="fa fa-plus"></i>
-            <p class="">Add Subcategory</p>
+            <p class="">Add Site</p>
         </a>
     </li>
 }
 
 <script>
     $(document).ready(function () {
-        $('#category-table').DataTable({
+        $('#site-table').DataTable({
             "aaSorting": [],
             columnDefs: [{
                 orderable: false,
-                targets: [1, 2]
+                targets: [3, 4]
             }]
         });
     });
 </script>
 
 <section class="data-section">
-    <h2 class="section-header">Sub-Categories</h2>
+    <h2 class="section-header">Clients</h2>
     <div class="section-body">
         <div class="text-center">
-            <table id="category-table" class="table table-striped" cellspacing="0" width="100%">
+            <table id="site-table" class="table table-striped" cellspacing="0" width="100%">
                 <thead>
                     <tr hidden>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -43,9 +43,12 @@
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
-                            Category
+                            @Html.DisplayNameFor(model => model.AddressLine1)
                         </th>
-                        <th style="width: 20%" colspan="2">Options</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContactEmail)
+                        </th>
+                        <th colspan="2" style="width: 20%">Options</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,18 +59,21 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Category.Name)
+                            @Html.DisplayFor(modelItem => item.AddressLine1)
                         </td>
                         <td>
-                            <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="EditSubCategory" asp-route-id="@item.ID">
+                            @Html.DisplayFor(modelItem => item.ContactEmail)
+                        </td>
+                        <td>
+                            <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="EditSite" asp-route-id="@item.ID">
                                 <i class="fa fa-pen"></i>
-                                <p class="">Edit Subcategory</p>
+                                <p class="">Edit Site</p>
                             </a>
                         </td>
                         <td>
-                            <a asp-area="ProductManagement" asp-controller="ProductManagement" asp-action="DeleteSubCategory" asp-route-id="@item.ID">
+                            <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="DeleteSite" asp-route-id="@item.ID">
                                 <i class="fa fa-trash"></i>
-                                <p class="">Delete Subcategory</p>
+                                <p class="">Delete Site</p>
                             </a>
                         </td>
                     </tr>
