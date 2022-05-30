@@ -5,18 +5,11 @@
 <div class="card-body">
     <div class="row">
         <input asp-for="Product.ID" hidden />
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <label asp-for="NumCases" class="control-label"></label>
                 <input asp-for="NumCases" class="form-control" />
                 <span asp-validation-for="NumCases" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="TotalWeight" class="control-label"></label>
-                <input asp-for="TotalWeight" class="form-control" />
-                <span asp-validation-for="TotalWeight" class="text-danger"></span>
             </div>
         </div>
     </div>

@@ -58,6 +58,7 @@
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Library\Web\" />
     <Folder Include="wwwroot\Invoices\" />
+    <Folder Include="wwwroot\PackingSheets\" />
   </ItemGroup>
 
   <ItemGroup>

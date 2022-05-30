@@ -37,6 +37,8 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
                         <th>
@@ -48,7 +50,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.ContactEmail)
                         </th>
-                        <th colspan="3" style="width: 20%">Options</th>
+                        <th colspan="4" style="width: 20%">Options</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +82,12 @@
                             <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="DeleteClient" asp-route-id="@item.ID">
                                 <i class="fa fa-trash"></i>
                                 <p class="">Delete Client</p>
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-area="ClientManagement" asp-controller="ClientManagement" asp-action="SiteList" asp-route-id="@item.ID">
+                                <i class="fa fa-minus"></i>
+                                <p class="">Site List</p>
                             </a>
                         </td>
                     </tr>

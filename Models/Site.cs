@@ -4,21 +4,21 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Bicks.Models;
 
 namespace Bicks.Models
 {
-    public class Client
+    public class Site
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "ID")]
         public int ID { get; set; }
-        [Display(Name = "Client Group")]
-        public virtual List<Site> Sites { get; set; } = new List<Site>();
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
+        [Required]
+        [Display(Name = "Client")]
+        public virtual Client Client { get; set; }
         [Required]
         [Display(Name = "Contact Name")]
         public string ContactName { get; set; }
@@ -38,7 +38,14 @@ namespace Bicks.Models
         public string Postcode { get; set; }
         [Required]
         [Display(Name = "Product Options")]
-        public virtual List<ProductOption> ProductOptions { get; set; } = new List<ProductOption>();
-        
+        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public virtual List<ProductOption> ProductOptions
+        {
+            get
+            {
+                return Client.ProductOptions.ToList();
+            }
+        }
     }
 }

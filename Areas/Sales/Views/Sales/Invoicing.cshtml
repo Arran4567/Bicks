@@ -1,0 +1,140 @@
+﻿@using System.IO
+@model Bicks.Models.Sale
+@{
+    ViewData["Title"] = "Invoice Management";
+    ViewData["Heading"] = "Invoice Management";
+}
+
+<h1>Invoice Management</h1>
+
+<style>
+
+    #progressBar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(196, 196, 196, 0.8);
+        padding: 20px;
+    }
+
+    #progressBar-inner {
+        display: block;
+        position: absolute;
+        margin: 0;
+        top: 40%;
+        left: 50%;
+        -ms-transform: translate(-50%, -40%);
+        transform: translate(-50%, -50%);
+        max-width: 700px;
+        width: 100%;
+        background-color: #FFF;
+        border: solid #000 2px;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    .progress-bar-fill.indeterminate {
+        position: relative;
+        animation: progress-indeterminate 1.5s linear infinite;
+    }
+
+    @@keyframes progress-indeterminate {
+        from {
+            left: 0%;
+            width: 20%;
+        }
+
+        to {
+            left: 80%;
+            width: 20%;
+        }
+    }
+
+    .progress-bar {
+        width: calc(100% - 6px);
+        background: #e0e0e0;
+        padding: 3px;
+        border-radius: 3px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
+    }
+
+    .progress-bar-fill {
+        display: block;
+        height: 5px;
+        background: #c7382e;
+        border-radius: 3px;
+        transition: width 250ms ease-in-out;
+    }
+
+    .progress-bar h3 {
+        color: #000000;
+        text-align: center;
+    }
+</style>
+
+<div class="card-grid">
+    <a onClick="showProgressBar();" class="card" asp-area="Sales" asp-controller="Sales" asp-action="GenerateInvoice" asp-route-id="@Model.ID">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="" class="img-fluid rounded-start" alt="" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Generate Invoice</h5>
+                    <p class="card-text">Generates the Invoice for the sale</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    @{
+        string invoiceLocation = $"/Invoices/{Model.ID.ToString("0000000")}.pdf?t={DateTime.Now.Ticks}";
+        string invoiceLocationCheck = $"{ViewData["RootLoc"]}/Invoices/{Model.ID.ToString("0000000")}.pdf";
+        if (File.Exists(invoiceLocationCheck))
+        {
+            <a class="card" href="@invoiceLocation" target="_blank">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="" class="img-fluid rounded-start" alt="" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">View Invoice</h5>
+                            <p class="card-text">Opens the Invoice for the sale</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a class="card" asp-area="Sales" asp-controller="Sales" asp-action="SendInvoice" asp-route-id="@Model.ID">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="" class="img-fluid rounded-start" alt="" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Send Invoice</h5>
+                            <p class="card-text">Send Invoice to Client Email</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+</div>
+
+<div id="progressBar" style="display: none;">
+    <div id="progressBar-inner" class="progress-bar">
+        <div>
+            <h3>Creating Invoice</h3>
+            <span class="progress-bar-fill indeterminate"></span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showProgressBar() {
+        $('#progressBar').show();
+    }
+</script>

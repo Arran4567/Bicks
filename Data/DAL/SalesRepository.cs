@@ -21,7 +21,15 @@ namespace Bicks.Data.DAL
             decimal total = decimal.Zero;
             foreach (InvoiceItem item in sale.SaleInvoiceItems)
             {
-                total += item.Product.PricePerKg * item.TotalWeight;
+                switch (item.Product.PricingMethod)
+                {
+                    case (int)Enums.PricingMethod.PricePerKg:
+                        total += item.Product.PricePerKg * item.TotalWeight;
+                        break;
+                    case (int)Enums.PricingMethod.PricePerUnit:
+                        total += item.Product.PricePerUnit * item.NumCases;
+                        break;
+                }
             }
             SalesInvoiceViewModel salesInvoiceViewModel = new SalesInvoiceViewModel
             {
